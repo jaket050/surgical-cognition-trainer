@@ -1221,7 +1221,7 @@ function CloseUpStudyPanel({ selectedId, examMode, examStats, confidence, showFl
           </button>
         ))}
       </div>
-      {selectedId === "lungs" ? <LungLobesCloseup /> : (selectedId === "biceps_r" || selectedId === "biceps_l") ? <BicepsCloseup side={selectedId === "biceps_l" ? "Left" : "Right"} /> : (
+      {selectedId === "lungs" ? <LungLobesCloseup /> : (selectedId?.includes("biceps")) ? <BicepsCloseup side={selectedId?.includes("left") ? "Left" : "Right"} /> : (
       <svg viewBox="0 0 420 330" className={showFlow ? "closeSvg flowMode" : "closeSvg"} aria-label={`Layered close-up view of ${info.name}`}>
         <defs>
           <radialGradient id="closeMuscle" cx="40%" cy="28%" r="75%">
