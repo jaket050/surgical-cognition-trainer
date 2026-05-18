@@ -1066,6 +1066,72 @@ function InfoPanel({ selectedId, tab, setTab }) {
   );
 }
 
+function BicepsCloseup({ side = "Right" }) {
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg bicepsPlate" aria-label={`${side} biceps brachii regional anatomy close-up`}>
+      <defs>
+        <radialGradient id="bicepsMuscleGrad" cx="36%" cy="28%" r="78%">
+          <stop offset="0%" stopColor="#FFD08A" />
+          <stop offset="42%" stopColor="#B83020" />
+          <stop offset="100%" stopColor="#3B0711" />
+        </radialGradient>
+        <radialGradient id="bicepsBoneGrad" cx="45%" cy="30%" r="75%">
+          <stop offset="0%" stopColor="#FFF7E7" />
+          <stop offset="55%" stopColor="#E8DCC8" />
+          <stop offset="100%" stopColor="#7F6E50" />
+        </radialGradient>
+        <filter id="bicepsGlow" x="-35%" y="-35%" width="170%" height="170%">
+          <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#F0D890" floodOpacity="0.55" />
+          <feDropShadow dx="0" dy="5" stdDeviation="6" floodColor="#000000" floodOpacity="0.35" />
+        </filter>
+      </defs>
+      <rect x="0" y="0" width="420" height="330" rx="22" fill="#07050C" />
+      <text x="24" y="34" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{side} biceps brachii</text>
+      <text x="24" y="56" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Anterior arm: muscle belly, tendons, brachial vessels, and nerve-risk relationships</text>
+
+      <path d="M96 72 C132 48 206 44 284 70 C318 82 343 111 350 150 C358 198 332 250 286 274 C218 310 128 286 82 226 C48 181 55 105 96 72 Z" fill="rgba(46,120,255,0.08)" stroke="rgba(128,184,208,0.18)" strokeWidth="2" />
+
+      <path d="M140 70 C172 58 218 60 250 78 C266 106 272 153 266 196 C260 238 232 269 198 270 C164 269 136 238 130 196 C124 153 128 106 140 70 Z" fill="rgba(184,48,32,0.20)" stroke="rgba(255,255,255,0.05)" />
+      <path d="M202 62 C214 100 216 150 212 210 C210 244 206 270 198 292" fill="none" stroke="url(#bicepsBoneGrad)" strokeWidth="20" strokeLinecap="round" opacity="0.90" />
+      <path d="M194 64 C202 104 202 160 198 214 C196 246 192 270 184 292" fill="none" stroke="#FFF7E7" strokeWidth="4" strokeLinecap="round" opacity="0.42" />
+
+      <path d="M162 78 C182 84 192 110 195 151 C198 196 187 240 166 258 C142 236 133 176 140 126 C144 99 151 84 162 78 Z" fill="url(#bicepsMuscleGrad)" stroke="#F6F0B8" strokeWidth="2.4" filter="url(#bicepsGlow)" />
+      <path d="M234 78 C214 84 204 110 201 151 C198 196 209 240 230 258 C254 236 263 176 256 126 C252 99 245 84 234 78 Z" fill="url(#bicepsMuscleGrad)" stroke="#F6F0B8" strokeWidth="2.4" filter="url(#bicepsGlow)" opacity="0.96" />
+      <path d="M166 88 C178 125 177 205 164 248 M230 88 C218 125 219 205 232 248" fill="none" stroke="rgba(255,210,166,0.30)" strokeWidth="2" strokeLinecap="round" />
+
+      <path d="M162 78 C166 54 178 42 192 34 M234 78 C226 54 218 42 204 34" fill="none" stroke="#D4C4A0" strokeWidth="8" strokeLinecap="round" />
+      <path d="M198 258 C198 276 202 292 214 306" fill="none" stroke="#D4C4A0" strokeWidth="9" strokeLinecap="round" />
+      <path d="M214 306 C236 303 252 295 264 284" fill="none" stroke="#FFF1C7" strokeWidth="5" strokeLinecap="round" />
+
+      <path d="M270 72 C292 116 292 170 278 224 C270 252 256 274 238 292" fill="none" stroke="#B01828" strokeWidth="7" strokeLinecap="round" />
+      <path d="M282 92 C303 134 303 187 289 232" fill="none" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" opacity="0.86" />
+      <path d="M118 94 C100 142 104 202 130 260" fill="none" stroke="#2840A0" strokeWidth="5" strokeLinecap="round" opacity="0.72" />
+      <path d="M258 82 C240 126 241 185 260 242" fill="none" stroke="#F2C94C" strokeWidth="5" strokeLinecap="round" strokeDasharray="2 9" />
+      <path d="M146 84 C130 134 134 190 156 242" fill="none" stroke="#FFD447" strokeWidth="4" strokeLinecap="round" strokeDasharray="2 9" opacity="0.82" />
+
+      <g fontFamily="Source Sans 3" fontSize="11" fontWeight="900">
+        <path d="M162 78 C118 60 82 54 44 64" fill="none" stroke="#D8CCA8" strokeWidth="1" opacity="0.7" />
+        <text x="20" y="62" fill="#F0D890">Long/short head tendons</text>
+        <path d="M214 306 C176 308 130 306 84 292" fill="none" stroke="#D8CCA8" strokeWidth="1" opacity="0.7" />
+        <text x="28" y="292" fill="#F0D890">Distal tendon / aponeurosis</text>
+        <path d="M270 144 C320 126 350 116 384 110" fill="none" stroke="#D8CCA8" strokeWidth="1" opacity="0.7" />
+        <text x="300" y="106" fill="#B01828">Brachial artery</text>
+        <path d="M258 166 C320 170 350 178 382 194" fill="none" stroke="#D8CCA8" strokeWidth="1" opacity="0.7" />
+        <text x="300" y="202" fill="#F2C94C">Median nerve path</text>
+      </g>
+
+      <g fontFamily="Source Sans 3" fontSize="12" fontWeight="800">
+        <text x="24" y="318" fill="#E8DCC8">Bone</text>
+        <text x="78" y="318" fill="#B83020">Biceps</text>
+        <text x="136" y="318" fill="#D4C4A0">Tendon</text>
+        <text x="198" y="318" fill="#B01828">Artery</text>
+        <text x="258" y="318" fill="#2840A0">Vein</text>
+        <text x="310" y="318" fill="#F2C94C">Nerve</text>
+      </g>
+    </svg>
+  );
+}
+
 function LungLobesCloseup() {
   return (
     <svg viewBox="0 0 420 330" className="closeSvg lungPlate" aria-label="Anatomically separated lung lobes close-up">
@@ -1155,7 +1221,7 @@ function CloseUpStudyPanel({ selectedId, examMode, examStats, confidence, showFl
           </button>
         ))}
       </div>
-      {selectedId === "lungs" ? <LungLobesCloseup /> : (
+      {selectedId === "lungs" ? <LungLobesCloseup /> : (selectedId === "biceps_r" || selectedId === "biceps_l") ? <BicepsCloseup side={selectedId === "biceps_l" ? "Left" : "Right"} /> : (
       <svg viewBox="0 0 420 330" className={showFlow ? "closeSvg flowMode" : "closeSvg"} aria-label={`Layered close-up view of ${info.name}`}>
         <defs>
           <radialGradient id="closeMuscle" cx="40%" cy="28%" r="75%">
@@ -1627,57 +1693,116 @@ const NEURO_MAP = [
   {
     nerve: "Brachial Plexus",
     roots: "C5–T1",
-    function: "Motor and sensory supply to upper limb.",
-    injury: "Stretch/compression during arm abduction or shoulder positioning may cause weakness or sensory deficits.",
-    surgical: "Critical during positioning, shoulder surgery, and prolonged arm-board use.",
+    function: "Motor and sensory supply to the upper limb through terminal branches including musculocutaneous, axillary, radial, median, and ulnar nerves.",
+    injury: "Stretch or compression may cause shoulder weakness, elbow flexion weakness, wrist drop, grip weakness, paresthesia, or sensory loss depending on the branch involved.",
+    surgical: "Critical during shoulder positioning, arm boards, traction, axillary exposure, and prolonged abduction.",
   },
   {
-    nerve: "Phrenic Nerve",
-    roots: "C3–C5",
-    function: "Innervates diaphragm for respiration.",
-    injury: "Damage may impair ventilation and diaphragmatic movement.",
-    surgical: "Important in thoracic and cervical procedures.",
+    nerve: "Musculocutaneous Nerve",
+    roots: "C5–C7",
+    function: "Innervates anterior arm flexors including biceps brachii and provides lateral forearm sensation.",
+    injury: "Weak elbow flexion/supination and sensory changes over the lateral forearm.",
+    surgical: "Relevant to anterior arm anatomy and upper-extremity positioning.",
+  },
+  {
+    nerve: "Median Nerve",
+    roots: "C6–T1",
+    function: "Supplies many forearm flexors and thenar muscles; supports thumb opposition and hand sensation.",
+    injury: "Compression can produce carpal tunnel symptoms, thenar weakness, or sensory changes in the lateral palm/digits.",
+    surgical: "Important around wrist positioning, retractors, and anterior forearm/hand procedures.",
   },
   {
     nerve: "Ulnar Nerve",
     roots: "C8–T1",
-    function: "Intrinsic hand muscles and medial hand sensation.",
-    injury: "Compression at elbow causes numbness/weak grip.",
-    surgical: "High-yield positioning risk in supine procedures.",
+    function: "Supplies intrinsic hand muscles and medial hand sensation.",
+    injury: "Compression at the elbow can cause numbness in the ring/small fingers, grip weakness, and clawing patterns.",
+    surgical: "High-yield positioning risk in supine procedures; requires elbow padding and neutral arm placement.",
+  },
+  {
+    nerve: "Radial Nerve",
+    roots: "C5–T1",
+    function: "Extends wrist/fingers and supplies posterior arm/forearm sensation.",
+    injury: "Compression or humeral injury can cause wrist drop and dorsal hand sensory change.",
+    surgical: "Relevant in arm positioning, humeral procedures, and pressure injury prevention.",
+  },
+  {
+    nerve: "Phrenic Nerve",
+    roots: "C3–C5",
+    function: "Innervates the diaphragm for inspiration.",
+    injury: "Damage can impair ventilation and diaphragmatic movement.",
+    surgical: "Important in thoracic, cervical, and upper abdominal procedures.",
+  },
+  {
+    nerve: "Femoral Nerve",
+    roots: "L2–L4",
+    function: "Supports hip flexion, knee extension, and anterior thigh/medial leg sensation.",
+    injury: "Compression or stretch may cause quadriceps weakness and impaired ambulation.",
+    surgical: "Relevant during pelvic, groin, hip, and lithotomy positioning.",
+  },
+  {
+    nerve: "Sciatic Nerve",
+    roots: "L4–S3",
+    function: "Major posterior lower-limb nerve supplying hamstrings and branches to leg/foot.",
+    injury: "Compression or stretch may cause posterior leg pain, weakness, or sensory deficits.",
+    surgical: "Relevant in hip positioning, posterior thigh exposure, and prolonged pressure risk.",
   },
   {
     nerve: "Common Peroneal Nerve",
     roots: "L4–S2",
-    function: "Controls dorsiflexion and foot eversion.",
-    injury: "Compression can cause foot drop.",
-    surgical: "Common lithotomy positioning risk.",
+    function: "Controls dorsiflexion and foot eversion through deep/superficial branches.",
+    injury: "Compression near the fibular head can cause foot drop.",
+    surgical: "Classic lithotomy positioning risk; padding at the fibular head matters.",
   },
 ];
 
 const CARDIO_FLOW = [
   {
     vessel: "Aorta",
-    flow: "Left ventricle → systemic circulation",
-    relevance: "Primary arterial outflow for oxygenated blood.",
-    danger: "Major hemorrhage risk if compromised.",
+    flow: "Left ventricle → ascending aorta → arch → descending aorta → systemic circulation",
+    relevance: "Primary arterial outflow for oxygenated blood and major pressure-bearing vessel.",
+    danger: "Major hemorrhage, dissection, or clamp-related perfusion compromise can rapidly destabilize the patient.",
+  },
+  {
+    vessel: "Coronary Arteries",
+    flow: "Aortic root → coronary circulation → myocardium",
+    relevance: "Perfuses the heart muscle itself.",
+    danger: "Compromised flow can cause ischemia, rhythm changes, or cardiac instability.",
   },
   {
     vessel: "Superior Vena Cava",
-    flow: "Upper body → right atrium",
-    relevance: "Returns deoxygenated blood to heart.",
-    danger: "Compression can impair venous return.",
+    flow: "Head/neck/upper limbs → SVC → right atrium",
+    relevance: "Returns deoxygenated blood from the upper body to the heart.",
+    danger: "Compression or obstruction impairs venous return and can affect hemodynamics.",
+  },
+  {
+    vessel: "Inferior Vena Cava",
+    flow: "Lower body/abdomen → IVC → right atrium",
+    relevance: "Major venous return pathway from abdomen, pelvis, and lower limbs.",
+    danger: "Injury can cause severe low-pressure but high-volume bleeding.",
+  },
+  {
+    vessel: "Pulmonary Trunk / Pulmonary Arteries",
+    flow: "Right ventricle → lungs for oxygenation",
+    relevance: "Carries deoxygenated blood to the lungs.",
+    danger: "Compromise affects oxygenation and right-heart strain.",
+  },
+  {
+    vessel: "Carotid Arteries",
+    flow: "Aortic arch branches → brain/head perfusion",
+    relevance: "Critical for cerebral blood flow.",
+    danger: "Compression or injury risks neurologic compromise or major bleeding.",
+  },
+  {
+    vessel: "Brachial Artery",
+    flow: "Axillary artery continuation → arm → radial/ulnar arteries",
+    relevance: "Major upper-extremity arterial supply and blood-pressure landmark.",
+    danger: "Injury can compromise distal perfusion and create hemorrhage risk.",
   },
   {
     vessel: "Femoral Artery",
-    flow: "External iliac → lower limb perfusion",
-    relevance: "Major lower-extremity pulse site.",
-    danger: "Severe bleeding/perfusion loss if injured.",
-  },
-  {
-    vessel: "Pulmonary Trunk",
-    flow: "Right ventricle → lungs",
-    relevance: "Carries blood for oxygenation.",
-    danger: "Pulmonary circulation compromise impacts oxygenation.",
+    flow: "External iliac → femoral artery → popliteal/tibial supply",
+    relevance: "Major lower-extremity pulse site and access vessel.",
+    danger: "Severe bleeding or limb ischemia if injured.",
   },
 ];
 
@@ -1865,6 +1990,93 @@ function PhysiologicEscalationSimulator() {
 
       <div className="orActions">
         <button onClick={nextEvent}>Next Escalation Scenario</button>
+      </div>
+    </section>
+  );
+}
+
+function AdaptiveAICoach() {
+  const [metrics, setMetrics] = useState({
+    anatomy: 72,
+    sterile: 61,
+    instruments: 68,
+    positioning: 54,
+    physiology: 49,
+    anticipation: 58,
+  });
+
+  const weakest = Object.entries(metrics).sort((a, b) => a[1] - b[1])[0];
+  const strongest = Object.entries(metrics).sort((a, b) => b[1] - a[1])[0];
+
+  const recommendations = {
+    anatomy: "Increase layered vessel + nerve identification drills and regional anatomy repetition.",
+    sterile: "Focus on contamination recognition and count discrepancy scenarios.",
+    instruments: "Review clamp/retractor families and practice instrument anticipation timing.",
+    positioning: "Study nerve compression risks and padding landmarks for operative positioning.",
+    physiology: "Train blood-loss escalation and oxygenation consequence chains.",
+    anticipation: "Practice dynamic OR scenario sequences with faster escalation intervals.",
+  };
+
+  const readiness = Math.round(Object.values(metrics).reduce((a, b) => a + b, 0) / Object.values(metrics).length);
+
+  return (
+    <section className="aiCoachPanel">
+      <div className="panelTopline">Phase 6 Adaptive AI Surgical Coach</div>
+
+      <div className="coachHeader">
+        <div>
+          <h3>Performance Readiness</h3>
+          <p>Adaptive remediation based on cognition gaps, physiologic reasoning, sterile judgment, and procedural anticipation.</p>
+        </div>
+        <div className="readinessScore">
+          <strong>{readiness}%</strong>
+          <span>CST readiness estimate</span>
+        </div>
+      </div>
+
+      <div className="coachGrid">
+        {Object.entries(metrics).map(([key, value]) => (
+          <div key={key} className="coachCard">
+            <div className="coachMetricTop">
+              <strong>{key}</strong>
+              <span>{value}%</span>
+            </div>
+            <div className="coachBar">
+              <div style={{ width: `${value}%` }} />
+            </div>
+            <p>{recommendations[key]}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="adaptiveInsights">
+        <div>
+          <strong>Weakest domain</strong>
+          <span>{weakest[0]} · {weakest[1]}%</span>
+          <p>{recommendations[weakest[0]]}</p>
+        </div>
+
+        <div>
+          <strong>Strongest domain</strong>
+          <span>{strongest[0]} · {strongest[1]}%</span>
+          <p>Maintain proficiency while reallocating study intensity toward weaker systems.</p>
+        </div>
+      </div>
+
+      <div className="studyPathPanel">
+        <strong>AI-generated study path</strong>
+        <ol>
+          <li>Repeat physiologic escalation drills</li>
+          <li>Complete sterile-field contamination review</li>
+          <li>Practice instrument anticipation sequencing</li>
+          <li>Review neurovascular positioning injuries</li>
+          <li>Take timed mixed-domain CST simulation</li>
+        </ol>
+      </div>
+
+      <div className="coachFooter">
+        <strong>Adaptive cognition goal</strong>
+        <span>The simulator identifies recurring cognitive weaknesses and redirects training toward the domains most likely to cause certification failure or OR hesitation.</span>
       </div>
     </section>
   );
@@ -2115,7 +2327,7 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           height: auto;
           align-items: stretch;
         }
-        .leftPanel, .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel {
+        .leftPanel, .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel, .aiCoachPanel {
           background: linear-gradient(180deg, rgba(10,13,22,0.98), rgba(5,5,12,0.96));
           border: 1px solid rgba(240,216,144,0.22);
           border-radius: 14px;
@@ -2373,7 +2585,7 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           gap: 12px;
           align-items: stretch;
         }
-        .rightStack .cstPanel, .rightStack .cognitionPanel, .rightStack .orScenarioPanel, .rightStack .systemsPhasePanel, .rightStack .escalationPanel { grid-column: 1 / -1; }
+        .rightStack .cstPanel, .rightStack .cognitionPanel, .rightStack .orScenarioPanel, .rightStack .systemsPhasePanel, .rightStack .escalationPanel, .rightStack .aiCoachPanel { grid-column: 1 / -1; }
         .infoPanel {
           display: flex;
           flex-direction: column;
@@ -2506,6 +2718,26 @@ export default function InteractiveHumanAnatomyReferenceTool() {
         .decisionFeedback span { color: #D69A55; font-size: 13px; line-height: 1.32; }
         .decisionFeedback.good { background: rgba(68,140,80,0.12); }
         .decisionFeedback.bad { background: rgba(184,48,32,0.14); }
+        .coachHeader { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+        .coachHeader h3 { margin: 0 0 6px; font-family: 'Libre Baskerville', serif; color: #F0D890; font-size: 22px; }
+        .coachHeader p { margin: 0; color: #D69A55; line-height: 1.32; font-size: 13px; max-width: 620px; }
+        .readinessScore { text-align: right; min-width: 150px; }
+        .readinessScore strong { display: block; color: #F0D890; font-size: 30px; font-family: 'Libre Baskerville', serif; }
+        .readinessScore span { color: #A06820; font-size: 12px; }
+        .coachGrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-top: 12px; }
+        .coachCard { border: 1px solid rgba(240,216,144,0.14); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.025); }
+        .coachMetricTop { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .coachMetricTop strong { color: #F0D890; text-transform: capitalize; font-size: 14px; }
+        .coachMetricTop span { color: #D88928; font-weight: 900; }
+        .coachBar { height: 10px; border-radius: 999px; background: rgba(255,255,255,0.06); overflow: hidden; border: 1px solid rgba(240,216,144,0.12); margin-bottom: 8px; }
+        .coachBar div { height: 100%; background: linear-gradient(90deg, #B01828, #D88928, #4A9E65); }
+        .coachCard p { margin: 0; color: #D69A55; font-size: 13px; line-height: 1.32; }
+        .adaptiveInsights { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-top: 12px; }
+        .adaptiveInsights div, .studyPathPanel, .coachFooter { border: 1px solid rgba(240,216,144,0.14); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.025); }
+        .adaptiveInsights strong, .studyPathPanel strong, .coachFooter strong { display: block; color: #F0D890; margin-bottom: 6px; }
+        .adaptiveInsights span { color: #D88928; font-weight: 900; display: block; margin-bottom: 6px; }
+        .adaptiveInsights p, .coachFooter span { margin: 0; color: #D69A55; line-height: 1.32; font-size: 13px; }
+        .studyPathPanel ol { margin: 0; padding-left: 18px; color: #D69A55; line-height: 1.5; font-size: 13px; }
         .layerChips { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
         .layerChips button { border: 1px solid rgba(240,216,144,0.14); background: rgba(255,255,255,0.035); color: #F0D890; border-radius: 999px; padding: 6px 9px; font-size: 12px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
         .layerChips button.off { opacity: 0.38; }
@@ -2590,8 +2822,10 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           .layout { display: block; height: auto; min-height: 0; }
           .leftPanel { display: none; }
           .rightStack { display: block; }
-          .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel { margin-bottom: 12px; }
-          .choiceGrid, .positionGrid, .orChoices, .systemsGrid, .eventTimeline { grid-template-columns: 1fr; }
+          .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel, .aiCoachPanel { margin-bottom: 12px; }
+          .choiceGrid, .positionGrid, .orChoices, .systemsGrid, .eventTimeline, .coachGrid, .adaptiveInsights { grid-template-columns: 1fr; }
+          .coachHeader { display: block; }
+          .readinessScore { text-align: left; margin-top: 8px; }
           .escalationHeader { display: block; }
           .stabilityBox { text-align: left; margin-top: 8px; }
           .orHeader { display: block; }
@@ -2738,6 +2972,7 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           <InfoPanel selectedId={selectedId} tab={tab} setTab={setTab} />
           <CloseUpStudyPanel selectedId={selectedId} examMode={examMode} examStats={examStats} confidence={confidence} showFlow={showFlow} />
           <CSTPrepPanel selectedId={selectedId} />
+          <AdaptiveAICoach />
           <PhysiologicEscalationSimulator />
           <IntegratedSystemsPhase />
           <ORScenarioEngine />
