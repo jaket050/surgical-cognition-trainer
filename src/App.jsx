@@ -1623,6 +1623,253 @@ function CSTCognitionTrainer() {
   );
 }
 
+const NEURO_MAP = [
+  {
+    nerve: "Brachial Plexus",
+    roots: "C5–T1",
+    function: "Motor and sensory supply to upper limb.",
+    injury: "Stretch/compression during arm abduction or shoulder positioning may cause weakness or sensory deficits.",
+    surgical: "Critical during positioning, shoulder surgery, and prolonged arm-board use.",
+  },
+  {
+    nerve: "Phrenic Nerve",
+    roots: "C3–C5",
+    function: "Innervates diaphragm for respiration.",
+    injury: "Damage may impair ventilation and diaphragmatic movement.",
+    surgical: "Important in thoracic and cervical procedures.",
+  },
+  {
+    nerve: "Ulnar Nerve",
+    roots: "C8–T1",
+    function: "Intrinsic hand muscles and medial hand sensation.",
+    injury: "Compression at elbow causes numbness/weak grip.",
+    surgical: "High-yield positioning risk in supine procedures.",
+  },
+  {
+    nerve: "Common Peroneal Nerve",
+    roots: "L4–S2",
+    function: "Controls dorsiflexion and foot eversion.",
+    injury: "Compression can cause foot drop.",
+    surgical: "Common lithotomy positioning risk.",
+  },
+];
+
+const CARDIO_FLOW = [
+  {
+    vessel: "Aorta",
+    flow: "Left ventricle → systemic circulation",
+    relevance: "Primary arterial outflow for oxygenated blood.",
+    danger: "Major hemorrhage risk if compromised.",
+  },
+  {
+    vessel: "Superior Vena Cava",
+    flow: "Upper body → right atrium",
+    relevance: "Returns deoxygenated blood to heart.",
+    danger: "Compression can impair venous return.",
+  },
+  {
+    vessel: "Femoral Artery",
+    flow: "External iliac → lower limb perfusion",
+    relevance: "Major lower-extremity pulse site.",
+    danger: "Severe bleeding/perfusion loss if injured.",
+  },
+  {
+    vessel: "Pulmonary Trunk",
+    flow: "Right ventricle → lungs",
+    relevance: "Carries blood for oxygenation.",
+    danger: "Pulmonary circulation compromise impacts oxygenation.",
+  },
+];
+
+const RESPIRATORY_LOGIC = [
+  {
+    structure: "Diaphragm",
+    physiology: "Primary muscle of inspiration.",
+    consequence: "Weakness impairs ventilation.",
+    OR: "Critical during thoracic and upper abdominal surgery.",
+  },
+  {
+    structure: "Trachea",
+    physiology: "Main airway conduit.",
+    consequence: "Obstruction compromises oxygen delivery.",
+    OR: "Central for intubation and airway management.",
+  },
+  {
+    structure: "Right Main Bronchus",
+    physiology: "Airflow to right lung.",
+    consequence: "Right-sided aspiration is more common due to anatomy.",
+    OR: "Relevant during airway placement and thoracic procedures.",
+  },
+];
+
+function IntegratedSystemsPhase() {
+  const [systemTab, setSystemTab] = useState("neuro");
+  const neuro = NEURO_MAP;
+  const cardio = CARDIO_FLOW;
+  const respiratory = RESPIRATORY_LOGIC;
+
+  return (
+    <section className="systemsPhasePanel">
+      <div className="panelTopline">Phase 4 Integrated Physiology + Neurovascular Systems</div>
+      <div className="systemsTabs">
+        <button className={systemTab === "neuro" ? "active" : ""} onClick={() => setSystemTab("neuro")}>Neurological</button>
+        <button className={systemTab === "cardio" ? "active" : ""} onClick={() => setSystemTab("cardio")}>Cardiovascular</button>
+        <button className={systemTab === "resp" ? "active" : ""} onClick={() => setSystemTab("resp")}>Respiratory</button>
+      </div>
+
+      {systemTab === "neuro" && (
+        <div className="systemsGrid">
+          {neuro.map((item) => (
+            <div key={item.nerve} className="systemsCard">
+              <h3>{item.nerve}</h3>
+              <span className="systemsMeta">Roots: {item.roots}</span>
+              <p><strong>Function:</strong> {item.function}</p>
+              <p><strong>Injury pattern:</strong> {item.injury}</p>
+              <p><strong>Surgical relevance:</strong> {item.surgical}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {systemTab === "cardio" && (
+        <div className="systemsGrid">
+          {cardio.map((item) => (
+            <div key={item.vessel} className="systemsCard">
+              <h3>{item.vessel}</h3>
+              <span className="systemsMeta">Flow: {item.flow}</span>
+              <p><strong>Clinical role:</strong> {item.relevance}</p>
+              <p><strong>High-risk consequence:</strong> {item.danger}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {systemTab === "resp" && (
+        <div className="systemsGrid">
+          {respiratory.map((item) => (
+            <div key={item.structure} className="systemsCard">
+              <h3>{item.structure}</h3>
+              <span className="systemsMeta">Physiology</span>
+              <p><strong>Role:</strong> {item.physiology}</p>
+              <p><strong>Consequence:</strong> {item.consequence}</p>
+              <p><strong>OR relevance:</strong> {item.OR}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="systemsFooter">
+        <strong>Integrated cognition goal</strong>
+        <span>Understand how anatomy, blood flow, innervation, ventilation, positioning, and surgical exposure interact under operative conditions.</span>
+      </div>
+    </section>
+  );
+}
+
+const PHYSIO_EVENTS = [
+  {
+    event: "Acute blood loss",
+    trigger: "Major vessel injury during exposure",
+    progression: ["Blood pressure drops", "Heart rate rises", "Perfusion decreases", "Shock risk increases"],
+    intervention: "Increase suction readiness, anticipate clamps/sponges, communicate urgency, maintain count awareness.",
+  },
+  {
+    event: "Airway compromise",
+    trigger: "Tube displacement or airway obstruction",
+    progression: ["Oxygen saturation falls", "Ventilation impaired", "Cardiac stress rises", "Hypoxia risk increases"],
+    intervention: "Protect airway access, maintain clear communication, anticipate suction/intubation support.",
+  },
+  {
+    event: "Sterile contamination cascade",
+    trigger: "Break in sterile technique",
+    progression: ["Field contamination", "Instrument isolation", "Replacement delay", "Procedure slowdown"],
+    intervention: "Identify contaminated field immediately and replace affected items before continuing.",
+  },
+];
+
+function PhysiologicEscalationSimulator() {
+  const [eventIndex, setEventIndex] = useState(0);
+  const [stage, setStage] = useState(0);
+  const [stability, setStability] = useState(100);
+  const [decision, setDecision] = useState(null);
+  const current = PHYSIO_EVENTS[eventIndex];
+
+  function progressEvent() {
+    setStage((s) => Math.min(current.progression.length - 1, s + 1));
+    setStability((v) => Math.max(15, v - 18));
+  }
+
+  function stabilize(choice) {
+    setDecision(choice);
+    if (choice === "correct") {
+      setStability((v) => Math.min(100, v + 20));
+    } else {
+      setStability((v) => Math.max(0, v - 15));
+    }
+  }
+
+  function nextEvent() {
+    setEventIndex((i) => (i + 1) % PHYSIO_EVENTS.length);
+    setStage(0);
+    setDecision(null);
+    setStability(100);
+  }
+
+  return (
+    <section className="escalationPanel">
+      <div className="panelTopline">Phase 5 Physiologic Escalation Simulator</div>
+      <div className="escalationHeader">
+        <div>
+          <h3>{current.event}</h3>
+          <p>{current.trigger}</p>
+        </div>
+        <div className="stabilityBox">
+          <strong>{stability}%</strong>
+          <span>Patient stability</span>
+        </div>
+      </div>
+
+      <div className="stabilityMeter">
+        <div style={{ width: `${stability}%` }} />
+      </div>
+
+      <div className="eventTimeline">
+        {current.progression.map((step, index) => (
+          <div key={step} className={index <= stage ? "active" : ""}>
+            <span>{index + 1}</span>
+            <p>{step}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="decisionPanel">
+        <strong>OR response decision</strong>
+        <p>{current.intervention}</p>
+        <div className="decisionButtons">
+          <button onClick={() => stabilize("correct")}>Correct anticipation</button>
+          <button onClick={() => stabilize("wrong")}>Delayed / incorrect response</button>
+          <button onClick={progressEvent}>Escalate Event</button>
+        </div>
+      </div>
+
+      {decision && (
+        <div className={decision === "correct" ? "decisionFeedback good" : "decisionFeedback bad"}>
+          <strong>{decision === "correct" ? "Stabilization improved." : "Patient risk increased."}</strong>
+          <span>
+            {decision === "correct"
+              ? "Good anticipation slows deterioration and improves operative stability."
+              : "Delayed anticipation increases physiologic stress and operative risk."}
+          </span>
+        </div>
+      )}
+
+      <div className="orActions">
+        <button onClick={nextEvent}>Next Escalation Scenario</button>
+      </div>
+    </section>
+  );
+}
+
 function StructureIndex({ structures, selectedId, setSelectedId }) {
   const groups = useMemo(() => {
     const allIds = Array.from(new Set(structures.map((s) => s.id))).filter((id) => INFO[id]);
@@ -1868,7 +2115,7 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           height: auto;
           align-items: stretch;
         }
-        .leftPanel, .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel {
+        .leftPanel, .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel {
           background: linear-gradient(180deg, rgba(10,13,22,0.98), rgba(5,5,12,0.96));
           border: 1px solid rgba(240,216,144,0.22);
           border-radius: 14px;
@@ -2126,7 +2373,7 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           gap: 12px;
           align-items: stretch;
         }
-        .rightStack .cstPanel, .rightStack .cognitionPanel, .rightStack .orScenarioPanel { grid-column: 1 / -1; }
+        .rightStack .cstPanel, .rightStack .cognitionPanel, .rightStack .orScenarioPanel, .rightStack .systemsPhasePanel, .rightStack .escalationPanel { grid-column: 1 / -1; }
         .infoPanel {
           display: flex;
           flex-direction: column;
@@ -2224,6 +2471,41 @@ export default function InteractiveHumanAnatomyReferenceTool() {
         .orFeedback.bad { background: rgba(184,48,32,0.14); }
         .orActions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .orActions button { border: 1px solid rgba(240,216,144,0.22); background: #0C0818; color: #F0D890; border-radius: 10px; padding: 8px 10px; font-weight: 800; cursor: pointer; }
+        .systemsTabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+        .systemsTabs button { border: 1px solid rgba(240,216,144,0.22); background: #0C0818; color: #F0D890; border-radius: 999px; padding: 8px 12px; font-weight: 900; cursor: pointer; }
+        .systemsTabs button.active { background: linear-gradient(180deg, rgba(176,24,40,0.88), rgba(85,16,22,0.92)); border-color: rgba(240,216,144,0.45); }
+        .systemsGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+        .systemsCard { border: 1px solid rgba(240,216,144,0.14); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.025); }
+        .systemsCard h3 { margin: 0 0 6px; font-family: 'Libre Baskerville', serif; color: #F0D890; font-size: 18px; }
+        .systemsMeta { display: inline-block; margin-bottom: 8px; color: #D88928; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; }
+        .systemsCard p { margin: 0 0 8px; color: #D69A55; font-size: 13px; line-height: 1.34; }
+        .systemsCard strong { color: #F0D890; }
+        .systemsFooter { margin-top: 12px; border: 1px solid rgba(240,216,144,0.14); border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.03); display: grid; gap: 5px; }
+        .systemsFooter strong { color: #F0D890; }
+        .systemsFooter span { color: #D69A55; line-height: 1.32; font-size: 13px; }
+        .escalationHeader { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+        .escalationHeader h3 { margin: 0 0 6px; font-family: 'Libre Baskerville', serif; color: #F0D890; font-size: 22px; }
+        .escalationHeader p { margin: 0; color: #D88928; font-size: 13px; font-weight: 800; }
+        .stabilityBox { text-align: right; min-width: 130px; }
+        .stabilityBox strong { display: block; font-size: 26px; color: #F0D890; font-family: 'Libre Baskerville', serif; }
+        .stabilityBox span { color: #A06820; font-size: 12px; }
+        .stabilityMeter { height: 12px; border-radius: 999px; background: rgba(255,255,255,0.06); overflow: hidden; margin: 12px 0; border: 1px solid rgba(240,216,144,0.14); }
+        .stabilityMeter div { height: 100%; background: linear-gradient(90deg, #B01828, #D88928, #4A9E65); transition: width 0.3s ease; }
+        .eventTimeline { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; margin: 12px 0; }
+        .eventTimeline div { border: 1px solid rgba(240,216,144,0.12); border-radius: 12px; padding: 10px; background: rgba(255,255,255,0.025); opacity: 0.45; }
+        .eventTimeline div.active { opacity: 1; border-color: rgba(240,216,144,0.42); background: rgba(240,216,144,0.08); }
+        .eventTimeline span { display: inline-flex; width: 24px; height: 24px; border-radius: 999px; align-items: center; justify-content: center; background: rgba(240,216,144,0.12); color: #F0D890; font-weight: 900; margin-bottom: 8px; }
+        .eventTimeline p { margin: 0; color: #D69A55; font-size: 13px; line-height: 1.28; }
+        .decisionPanel { border: 1px solid rgba(240,216,144,0.14); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.025); }
+        .decisionPanel strong { display: block; color: #F0D890; margin-bottom: 5px; }
+        .decisionPanel p { margin: 0 0 10px; color: #D69A55; line-height: 1.34; font-size: 13px; }
+        .decisionButtons { display: flex; flex-wrap: wrap; gap: 8px; }
+        .decisionButtons button { border: 1px solid rgba(240,216,144,0.22); background: #0C0818; color: #F0D890; border-radius: 10px; padding: 8px 10px; font-weight: 800; cursor: pointer; }
+        .decisionFeedback { margin-top: 10px; border-radius: 12px; padding: 10px; border: 1px solid rgba(240,216,144,0.14); display: grid; gap: 4px; }
+        .decisionFeedback strong { color: #F0D890; }
+        .decisionFeedback span { color: #D69A55; font-size: 13px; line-height: 1.32; }
+        .decisionFeedback.good { background: rgba(68,140,80,0.12); }
+        .decisionFeedback.bad { background: rgba(184,48,32,0.14); }
         .layerChips { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
         .layerChips button { border: 1px solid rgba(240,216,144,0.14); background: rgba(255,255,255,0.035); color: #F0D890; border-radius: 999px; padding: 6px 9px; font-size: 12px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
         .layerChips button.off { opacity: 0.38; }
@@ -2308,8 +2590,10 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           .layout { display: block; height: auto; min-height: 0; }
           .leftPanel { display: none; }
           .rightStack { display: block; }
-          .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel { margin-bottom: 12px; }
-          .choiceGrid, .positionGrid, .orChoices { grid-template-columns: 1fr; }
+          .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel { margin-bottom: 12px; }
+          .choiceGrid, .positionGrid, .orChoices, .systemsGrid, .eventTimeline { grid-template-columns: 1fr; }
+          .escalationHeader { display: block; }
+          .stabilityBox { text-align: left; margin-top: 8px; }
           .orHeader { display: block; }
           .orScore { text-align: left; margin-top: 8px; }
           .cstGrid { grid-template-columns: 1fr; }
@@ -2454,6 +2738,8 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           <InfoPanel selectedId={selectedId} tab={tab} setTab={setTab} />
           <CloseUpStudyPanel selectedId={selectedId} examMode={examMode} examStats={examStats} confidence={confidence} showFlow={showFlow} />
           <CSTPrepPanel selectedId={selectedId} />
+          <PhysiologicEscalationSimulator />
+          <IntegratedSystemsPhase />
           <ORScenarioEngine />
           <CSTCognitionTrainer />
         </div>
