@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 
 const SYSTEMS = {
   muscular: { label: "Muscular", color: "#B83020", dot: "#E45735" },
