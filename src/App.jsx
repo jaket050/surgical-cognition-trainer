@@ -2227,7 +2227,7 @@ function InstrumentWorkflowSimulator() {
   );
 }
 
-const REALISTIC_CST_BANK
+const CERTIFICATION_DOMAINS = {
   preop: {
     label: "Preoperative Preparation",
     weight: 0.18,
