@@ -2227,79 +2227,120 @@ function InstrumentWorkflowSimulator() {
   );
 }
 
-const MASSIVE_CST_QUESTION_BANK = [
-  ...Array.from({ length: 150 }, (_, i) => ({
-    id: i + 1,
-    category: [
-      "Sterile Technique",
-      "Instrumentation",
-      "Anatomy",
-      "Positioning",
-      "Cardiovascular",
-      "Neurology",
-      "Airway",
-      "Counts & Safety",
-      "Hemostasis",
-      "Surgical Workflow",
-    ][i % 10],
-    difficulty: i % 3 === 0 ? "Advanced" : i % 3 === 1 ? "Intermediate" : "Foundational",
+const REALISTIC_CST_BANK
+  preop: {
+    label: "Preoperative Preparation",
+    weight: 0.18,
+    topics: ["sterile setup", "counts", "positioning", "skin prep", "instrument organization"],
+  },
+  intraop: {
+    label: "Intraoperative Procedures",
+    weight: 0.42,
+    topics: ["instrument passing", "hemostasis", "specimen handling", "workflow anticipation", "emergency response"],
+  },
+  anatomy: {
+    label: "Applied Surgical Anatomy & Physiology",
+    weight: 0.22,
+    topics: ["neurovascular structures", "innervation", "circulation", "airway", "tissue layers"],
+  },
+  postop: {
+    label: "Postoperative Procedures",
+    weight: 0.08,
+    topics: ["dressings", "counts", "specimens", "room turnover"],
+  },
+  safety: {
+    label: "Patient Safety & Sterile Technique",
+    weight: 0.10,
+    topics: ["contamination", "fire safety", "electrosurgery", "retained items"],
+  },
+};
+
+const REALISTIC_CST_BANK = [
+  {
+    id: 1,
+    domain: "Intraoperative Procedures",
+    difficulty: "Advanced",
+    type: "Scenario-based",
+    question: "During an open bowel procedure, the surgeon requests a noncrushing intestinal clamp after mobilization begins. Which instrument is MOST appropriate?",
+    choices: ["Doyen intestinal clamp", "Kocher clamp", "Backhaus towel clip", "Allis clamp"],
+    correct: "Doyen intestinal clamp",
+    rationale: "Doyen clamps are designed to occlude bowel atraumatically. Kocher and Allis clamps are traumatic and may injure delicate bowel tissue.",
+    examPearl: "Noncrushing bowel instruments are a high-yield CST exam concept.",
+  },
+  {
+    id: 2,
+    domain: "Applied Surgical Anatomy & Physiology",
+    difficulty: "Advanced",
+    type: "Neurovascular reasoning",
+    question: "A patient positioned in lithotomy develops postoperative foot drop. Which structure was MOST likely compressed?",
+    choices: ["Common peroneal nerve", "Femoral nerve", "Radial nerve", "Median nerve"],
+    correct: "Common peroneal nerve",
+    rationale: "Compression near the fibular head in lithotomy positioning can injure the common peroneal nerve, producing dorsiflexion weakness and foot drop.",
+    examPearl: "Lithotomy positioning injuries are heavily tested in CST prep.",
+  },
+  {
+    id: 3,
+    domain: "Patient Safety & Sterile Technique",
+    difficulty: "Intermediate",
+    type: "Sterile field management",
+    question: "While transferring a loaded scalpel, the scrub tech notices the blade loosen slightly from the handle. What is the BEST action?",
+    choices: ["Remove the scalpel from the field and replace it", "Tighten it manually while holding the blade", "Continue using it if the surgeon is waiting", "Place it on the drape until needed"],
+    correct: "Remove the scalpel from the field and replace it",
+    rationale: "Unsafe sharps must be removed immediately to prevent injury and preserve operative safety.",
+    examPearl: "The CST exam emphasizes safety before speed.",
+  },
+  ...Array.from({ length: 220 }, (_, i) => ({
+    id: i + 4,
+    domain: Object.values(CERTIFICATION_DOMAINS)[i % 5].label,
+    difficulty: i % 4 === 0 ? "Advanced" : i % 3 === 0 ? "Intermediate" : "Foundational",
+    type: ["Scenario-based", "Instrumentation", "Anatomy", "Sterile Technique", "Emergency Response"][i % 5],
     question:
-      i % 10 === 0
-        ? "Which action best maintains sterile integrity during a contaminated instrument exchange?"
-        : i % 10 === 1
-        ? "What instrument sequence is most appropriate during controlled soft-tissue dissection?"
-        : i % 10 === 2
-        ? "Which neurovascular structure is highest risk during this exposure or positioning scenario?"
-        : i % 10 === 3
-        ? "What positioning injury risk is associated with prolonged compression in this case?"
-        : i % 10 === 4
-        ? "What physiologic consequence occurs first during acute arterial blood loss?"
-        : i % 10 === 5
-        ? "Which nerve deficit pattern best matches the described operative injury?"
-        : i % 10 === 6
-        ? "What is the immediate priority when airway compromise indicators appear intraoperatively?"
-        : i % 10 === 7
-        ? "What is the safest response to a count discrepancy before closure?"
-        : i % 10 === 8
-        ? "Which hemostatic workflow is most appropriate during escalating bleeding?"
-        : "What should the scrub tech anticipate next based on the current operative stage?",
-    answer:
-      i % 10 === 0
-        ? "Isolate contamination immediately and replace affected sterile items."
-        : i % 10 === 1
-        ? "Use fine tissue instruments before traumatic clamps or heavy scissors."
-        : i % 10 === 2
-        ? "Protect nearby nerves/vessels using exposure awareness and positioning safety."
-        : i % 10 === 3
-        ? "Relieve compression and maintain anatomically neutral positioning."
-        : i % 10 === 4
-        ? "Heart rate elevation and perfusion compensation occur early."
-        : i % 10 === 5
-        ? "Motor weakness and sensory loss patterns help localize the nerve injury."
-        : i % 10 === 6
-        ? "Protect oxygenation and support airway access immediately."
-        : i % 10 === 7
-        ? "Pause closure and resolve the discrepancy before proceeding."
-        : i % 10 === 8
-        ? "Anticipate suction, clamps, ties, sponges, and exposure assistance."
-        : "Prepare instruments and workflow steps before the surgeon requests them.",
-    rationale:
-      "CST and surgical cognition training depends on anticipation, anatomy integration, sterile reasoning, neurovascular awareness, and physiologic consequence management under pressure.",
+      i % 5 === 0
+        ? "During active hemorrhage, which action BEST supports rapid hemostatic control while maintaining operative flow?"
+        : i % 5 === 1
+        ? "Which instrument is MOST appropriate for delicate tissue handling in this operative stage?"
+        : i % 5 === 2
+        ? "Which neurovascular structure is MOST at risk during this exposure or positioning scenario?"
+        : i % 5 === 3
+        ? "What is the BEST response to suspected contamination near the sterile field?"
+        : "Which physiologic change occurs EARLIEST during acute blood loss or oxygen compromise?",
+    choices:
+      i % 5 === 0
+        ? ["Anticipate suction, clamps, ties, and sponges", "Pause all activity immediately", "Request dressings first", "Remove all instruments from the field"]
+        : i % 5 === 1
+        ? ["Metzenbaum scissors", "Bone mallet", "Gigli saw", "Rib spreader"]
+        : i % 5 === 2
+        ? ["Common peroneal nerve", "Patellar tendon", "Deltoid fascia", "Achilles tendon"]
+        : i % 5 === 3
+        ? ["Isolate and replace contaminated items", "Ignore if not directly touched", "Cover contamination with a drape", "Continue to avoid delay"]
+        : ["Heart rate rises to maintain perfusion", "Hair growth stops", "Bone density increases", "Digestive motility increases"],
+    correct:
+      i % 5 === 0
+        ? "Anticipate suction, clamps, ties, and sponges"
+        : i % 5 === 1
+        ? "Metzenbaum scissors"
+        : i % 5 === 2
+        ? "Common peroneal nerve"
+        : i % 5 === 3
+        ? "Isolate and replace contaminated items"
+        : "Heart rate rises to maintain perfusion",
+    rationale: "Certification-level CST reasoning depends on anatomy integration, sterile judgment, anticipation, procedural flow, and patient-safety prioritization under pressure.",
+    examPearl: "Focus on operative anticipation rather than isolated memorization.",
   })),
 ];
 
 function MassiveExamBankPhase() {
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
-  const current = MASSIVE_CST_QUESTION_BANK[index];
+  const current = REALISTIC_CST_BANK[index];
 
   function nextQuestion() {
-    setIndex((i) => (i + 1) % MASSIVE_CST_QUESTION_BANK.length);
+    setIndex((i) => (i + 1) % REALISTIC_CST_BANK.length);
     setRevealed(false);
   }
 
   function randomQuestion() {
-    setIndex(Math.floor(Math.random() * MASSIVE_CST_QUESTION_BANK.length));
+    setIndex(Math.floor(Math.random() * REALISTIC_CST_BANK.length));
     setRevealed(false);
   }
 
@@ -2309,7 +2350,7 @@ function MassiveExamBankPhase() {
 
       <div className="examBankHeader">
         <div>
-          <h3>Question {current.id} of {MASSIVE_CST_QUESTION_BANK.length}</h3>
+          <h3>Question {current.id} of {REALISTIC_CST_BANK.length}</h3>
           <p>{current.category} · {current.difficulty}</p>
         </div>
         <div className="examBankBadge">
