@@ -1066,6 +1066,36 @@ function InfoPanel({ selectedId, tab, setTab }) {
   );
 }
 
+function SCMCloseup() {
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg scmPlate" aria-label="Sternocleidomastoid regional anatomy close-up">
+      <defs>
+        <radialGradient id="scmMuscleGrad" cx="34%" cy="24%" r="82%">
+          <stop offset="0%" stopColor="#FFE0A8" />
+          <stop offset="40%" stopColor="#C63C2A" />
+          <stop offset="100%" stopColor="#32070E" />
+        </radialGradient>
+        <radialGradient id="neckBoneGrad" cx="45%" cy="25%" r="80%">
+          <stop offset="0%" stopColor="#FFF7E8" />
+          <stop offset="55%" stopColor="#E8DCC8" />
+          <stop offset="100%" stopColor="#7D6A52" />
+        </radialGradient>
+      </defs>
+      <rect width="420" height="330" rx="22" fill="#07050C" />
+      <text x="22" y="34" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">Sternocleidomastoid anatomy</text>
+      <text x="22" y="55" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Neck rotation, carotid relationship, airway landmarks, and cervical neurovascular anatomy</text>
+      <ellipse cx="210" cy="176" rx="150" ry="112" fill="rgba(50,120,255,0.08)" stroke="rgba(128,184,208,0.16)" strokeWidth="2" />
+      <path d="M206 68 C214 104 214 142 210 228" fill="none" stroke="url(#neckBoneGrad)" strokeWidth="18" strokeLinecap="round" opacity="0.92" />
+      <path d="M162 76 C128 102 116 134 118 174 C120 206 136 236 164 258 C182 236 192 202 194 160 C196 122 186 94 162 76 Z" fill="url(#scmMuscleGrad)" stroke="#FFF0B6" strokeWidth="2.4" />
+      <path d="M258 76 C292 102 304 134 302 174 C300 206 284 236 256 258 C238 236 228 202 226 160 C224 122 234 94 258 76 Z" fill="url(#scmMuscleGrad)" stroke="#FFF0B6" strokeWidth="2.4" />
+      <path d="M206 88 C206 132 206 186 206 252" fill="none" stroke="#80B8D0" strokeWidth="8" strokeLinecap="round" opacity="0.75" />
+      <path d="M238 86 C256 122 260 176 248 228" fill="none" stroke="#B01828" strokeWidth="6" strokeLinecap="round" />
+      <path d="M136 96 C124 136 128 186 148 236" fill="none" stroke="#2840A0" strokeWidth="5" strokeLinecap="round" opacity="0.84" />
+      <path d="M228 92 C208 124 198 164 194 230" fill="none" stroke="#F2C94C" strokeWidth="4" strokeDasharray="2 8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function BicepsCloseup({ side = "Right" }) {
   return (
     <svg viewBox="0 0 420 330" className="closeSvg bicepsPlate" aria-label={`${side} biceps brachii regional anatomy close-up`}>
@@ -1221,7 +1251,7 @@ function CloseUpStudyPanel({ selectedId, examMode, examStats, confidence, showFl
           </button>
         ))}
       </div>
-      {selectedId === "lungs" ? <LungLobesCloseup /> : (selectedId?.includes("biceps")) ? <BicepsCloseup side={selectedId?.includes("left") ? "Left" : "Right"} /> : (
+      {selectedId === "lungs" ? <LungLobesCloseup /> : (selectedId?.toLowerCase().includes("sternocleidomastoid") || selectedId?.toLowerCase().includes("scm")) ? <SCMCloseup /> : (selectedId?.includes("biceps")) ? <BicepsCloseup side={selectedId?.includes("left") ? "Left" : "Right"} /> : (
       <svg viewBox="0 0 420 330" className={showFlow ? "closeSvg flowMode" : "closeSvg"} aria-label={`Layered close-up view of ${info.name}`}>
         <defs>
           <radialGradient id="closeMuscle" cx="40%" cy="28%" r="75%">
@@ -2082,6 +2112,121 @@ function AdaptiveAICoach() {
   );
 }
 
+const INSTRUMENT_WORKFLOW_CASES = [
+  {
+    procedure: "Open abdominal entry",
+    stage: "Incision and exposure",
+    surgeonRequest: "Knife, then deepen with Bovie. I need exposure.",
+    correctInstrument: "Scalpel → Bovie → Army-Navy",
+    options: ["Scalpel → Bovie → Army-Navy", "Rib spreader → Rongeur → Mallet", "Specimen cup → Skin stapler → Dressing", "Bulldog clamp → Vessel loop → Potts scissors"],
+    anticipation: "After incision, anticipate cautery, suction, retractors, hemostats, and sponges.",
+    why: "The scrub tech should think in sequence: incision, hemostasis, exposure, tissue handling, and safe field organization.",
+  },
+  {
+    procedure: "Bleeding control",
+    stage: "Unexpected bleeding",
+    surgeonRequest: "Suction. Clamp. Give me a tie.",
+    correctInstrument: "Suction → Kelly/Crile → Tie",
+    options: ["Suction → Kelly/Crile → Tie", "Skin stapler → Dressing → Tape", "Rib spreader → Mallet → Saw", "Trocar → Camera → Specimen bag"],
+    anticipation: "Prepare suction, hemostats, ties, sponges, and possible vascular clamps while keeping the field organized.",
+    why: "Bleeding events require rapid anticipation and calm sequencing, not random instrument passing.",
+  },
+  {
+    procedure: "Delicate tissue dissection",
+    stage: "Soft-tissue separation",
+    surgeonRequest: "Metz and DeBakey.",
+    correctInstrument: "Metzenbaum scissors + DeBakey forceps",
+    options: ["Metzenbaum scissors + DeBakey forceps", "Mayo scissors + Kocher clamp", "Backhaus towel clip + Skin stapler", "Bone saw + Osteotome"],
+    anticipation: "Expect delicate dissection, controlled tissue handling, and possible small-vessel hemostasis.",
+    why: "Metzenbaum scissors and DeBakey forceps are associated with finer tissue work compared with heavier cutting or traumatic clamps.",
+  },
+  {
+    procedure: "Closure sequence",
+    stage: "Layered closure",
+    surgeonRequest: "We are closing. Count and give me suture.",
+    correctInstrument: "Needle holder → Forceps → Suture scissors",
+    options: ["Needle holder → Forceps → Suture scissors", "Suction → Trocar → Camera", "Rib spreader → Vessel loop → Bulldog", "Mallet → Drill → Implant trial"],
+    anticipation: "Confirm counts, organize suture, protect sharps, and anticipate dressing materials.",
+    why: "Closure requires count awareness, sharps control, suture handling, and clean progression from deep to superficial layers.",
+  },
+];
+
+function InstrumentWorkflowSimulator() {
+  const [caseIndex, setCaseIndex] = useState(0);
+  const [choice, setChoice] = useState(null);
+  const [workflowStats, setWorkflowStats] = useState({ correct: 0, attempts: 0, streak: 0 });
+  const current = INSTRUMENT_WORKFLOW_CASES[caseIndex];
+  const answered = choice !== null;
+  const isCorrect = choice === current.correctInstrument;
+  const accuracy = workflowStats.attempts ? Math.round((workflowStats.correct / workflowStats.attempts) * 100) : 0;
+
+  function selectInstrument(option) {
+    if (answered) return;
+    const correct = option === current.correctInstrument;
+    setChoice(option);
+    setWorkflowStats((s) => ({
+      correct: s.correct + (correct ? 1 : 0),
+      attempts: s.attempts + 1,
+      streak: correct ? s.streak + 1 : 0,
+    }));
+  }
+
+  function nextWorkflow() {
+    setCaseIndex((i) => (i + 1) % INSTRUMENT_WORKFLOW_CASES.length);
+    setChoice(null);
+  }
+
+  function resetWorkflow() {
+    setWorkflowStats({ correct: 0, attempts: 0, streak: 0 });
+    setChoice(null);
+  }
+
+  return (
+    <section className="instrumentWorkflowPanel">
+      <div className="panelTopline">Phase 7 Instrument Passing + Anticipation Workflow</div>
+      <div className="workflowHeader">
+        <div>
+          <h3>{current.procedure}</h3>
+          <p>{current.stage}</p>
+        </div>
+        <div className="workflowScore">
+          <strong>{accuracy}%</strong>
+          <span>{workflowStats.correct}/{workflowStats.attempts || 0} correct · streak {workflowStats.streak}</span>
+        </div>
+      </div>
+
+      <div className="surgeonRequestBox">
+        <strong>Surgeon request</strong>
+        <p>“{current.surgeonRequest}”</p>
+      </div>
+
+      <div className="mayoStandGrid">
+        {current.options.map((option) => {
+          const className = answered ? (option === current.correctInstrument ? "correct" : option === choice ? "wrong" : "") : "";
+          return <button key={option} className={className} onClick={() => selectInstrument(option)}>{option}</button>;
+        })}
+      </div>
+
+      <div className="anticipationBox">
+        <strong>Anticipation cue</strong>
+        <span>{current.anticipation}</span>
+      </div>
+
+      {answered && (
+        <div className={isCorrect ? "workflowFeedback good" : "workflowFeedback bad"}>
+          <strong>{isCorrect ? "Correct pass sequence." : "Sequence mismatch."}</strong>
+          <span>{current.why}</span>
+        </div>
+      )}
+
+      <div className="workflowActions">
+        <button onClick={nextWorkflow}>Next Workflow</button>
+        <button onClick={resetWorkflow}>Reset Workflow Score</button>
+      </div>
+    </section>
+  );
+}
+
 function StructureIndex({ structures, selectedId, setSelectedId }) {
   const groups = useMemo(() => {
     const allIds = Array.from(new Set(structures.map((s) => s.id))).filter((id) => INFO[id]);
@@ -2327,7 +2472,7 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           height: auto;
           align-items: stretch;
         }
-        .leftPanel, .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel, .aiCoachPanel {
+        .leftPanel, .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel, .aiCoachPanel, .instrumentWorkflowPanel {
           background: linear-gradient(180deg, rgba(10,13,22,0.98), rgba(5,5,12,0.96));
           border: 1px solid rgba(240,216,144,0.22);
           border-radius: 14px;
@@ -2585,7 +2730,7 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           gap: 12px;
           align-items: stretch;
         }
-        .rightStack .cstPanel, .rightStack .cognitionPanel, .rightStack .orScenarioPanel, .rightStack .systemsPhasePanel, .rightStack .escalationPanel, .rightStack .aiCoachPanel { grid-column: 1 / -1; }
+        .rightStack .cstPanel, .rightStack .cognitionPanel, .rightStack .orScenarioPanel, .rightStack .systemsPhasePanel, .rightStack .escalationPanel, .rightStack .aiCoachPanel, .rightStack .instrumentWorkflowPanel { grid-column: 1 / -1; }
         .infoPanel {
           display: flex;
           flex-direction: column;
@@ -2738,6 +2883,27 @@ export default function InteractiveHumanAnatomyReferenceTool() {
         .adaptiveInsights span { color: #D88928; font-weight: 900; display: block; margin-bottom: 6px; }
         .adaptiveInsights p, .coachFooter span { margin: 0; color: #D69A55; line-height: 1.32; font-size: 13px; }
         .studyPathPanel ol { margin: 0; padding-left: 18px; color: #D69A55; line-height: 1.5; font-size: 13px; }
+        .instrumentWorkflowPanel h3 { margin: 0 0 6px; font-family: 'Libre Baskerville', serif; color: #F0D890; font-size: 22px; line-height: 1.15; }
+        .workflowHeader { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+        .workflowHeader p { margin: 0; color: #D88928; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em; }
+        .workflowScore { text-align: right; min-width: 150px; }
+        .workflowScore strong { display: block; color: #F0D890; font-family: 'Libre Baskerville', serif; font-size: 28px; }
+        .workflowScore span { color: #A06820; font-size: 12px; line-height: 1.2; }
+        .surgeonRequestBox, .anticipationBox { border: 1px solid rgba(240,216,144,0.16); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.025); margin-top: 10px; }
+        .surgeonRequestBox strong, .anticipationBox strong { display: block; color: #F0D890; margin-bottom: 5px; }
+        .surgeonRequestBox p { margin: 0; color: #D69A55; font-size: 16px; line-height: 1.35; font-family: 'Libre Baskerville', serif; }
+        .anticipationBox span { color: #D69A55; line-height: 1.34; font-size: 13px; display: block; }
+        .mayoStandGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+        .mayoStandGrid button { border: 1px solid rgba(240,216,144,0.18); background: rgba(12,8,24,0.92); color: #D69A55; border-radius: 12px; padding: 11px; font-weight: 900; cursor: pointer; text-align: left; }
+        .mayoStandGrid button.correct { background: rgba(68,140,80,0.28); color: #BDF5C4; border-color: rgba(118,240,140,0.45); }
+        .mayoStandGrid button.wrong { background: rgba(184,48,32,0.32); color: #FFB2A8; border-color: rgba(255,110,90,0.45); }
+        .workflowFeedback { margin-top: 10px; border-radius: 12px; padding: 10px; border: 1px solid rgba(240,216,144,0.14); display: grid; gap: 4px; }
+        .workflowFeedback strong { color: #F0D890; }
+        .workflowFeedback span { color: #D69A55; font-size: 13px; line-height: 1.32; }
+        .workflowFeedback.good { background: rgba(68,140,80,0.12); }
+        .workflowFeedback.bad { background: rgba(184,48,32,0.14); }
+        .workflowActions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .workflowActions button { border: 1px solid rgba(240,216,144,0.22); background: #0C0818; color: #F0D890; border-radius: 10px; padding: 8px 10px; font-weight: 800; cursor: pointer; }
         .layerChips { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
         .layerChips button { border: 1px solid rgba(240,216,144,0.14); background: rgba(255,255,255,0.035); color: #F0D890; border-radius: 999px; padding: 6px 9px; font-size: 12px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
         .layerChips button.off { opacity: 0.38; }
@@ -2822,8 +2988,10 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           .layout { display: block; height: auto; min-height: 0; }
           .leftPanel { display: none; }
           .rightStack { display: block; }
-          .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel, .aiCoachPanel { margin-bottom: 12px; }
-          .choiceGrid, .positionGrid, .orChoices, .systemsGrid, .eventTimeline, .coachGrid, .adaptiveInsights { grid-template-columns: 1fr; }
+          .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel, .aiCoachPanel, .instrumentWorkflowPanel { margin-bottom: 12px; }
+          .choiceGrid, .positionGrid, .orChoices, .systemsGrid, .eventTimeline, .coachGrid, .adaptiveInsights, .mayoStandGrid { grid-template-columns: 1fr; }
+          .workflowHeader { display: block; }
+          .workflowScore { text-align: left; margin-top: 8px; }
           .coachHeader { display: block; }
           .readinessScore { text-align: left; margin-top: 8px; }
           .escalationHeader { display: block; }
@@ -2972,6 +3140,7 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           <InfoPanel selectedId={selectedId} tab={tab} setTab={setTab} />
           <CloseUpStudyPanel selectedId={selectedId} examMode={examMode} examStats={examStats} confidence={confidence} showFlow={showFlow} />
           <CSTPrepPanel selectedId={selectedId} />
+          <InstrumentWorkflowSimulator />
           <AdaptiveAICoach />
           <PhysiologicEscalationSimulator />
           <IntegratedSystemsPhase />
