@@ -2227,6 +2227,250 @@ function InstrumentWorkflowSimulator() {
   );
 }
 
+const MASSIVE_CST_QUESTION_BANK = [
+  ...Array.from({ length: 150 }, (_, i) => ({
+    id: i + 1,
+    category: [
+      "Sterile Technique",
+      "Instrumentation",
+      "Anatomy",
+      "Positioning",
+      "Cardiovascular",
+      "Neurology",
+      "Airway",
+      "Counts & Safety",
+      "Hemostasis",
+      "Surgical Workflow",
+    ][i % 10],
+    difficulty: i % 3 === 0 ? "Advanced" : i % 3 === 1 ? "Intermediate" : "Foundational",
+    question:
+      i % 10 === 0
+        ? "Which action best maintains sterile integrity during a contaminated instrument exchange?"
+        : i % 10 === 1
+        ? "What instrument sequence is most appropriate during controlled soft-tissue dissection?"
+        : i % 10 === 2
+        ? "Which neurovascular structure is highest risk during this exposure or positioning scenario?"
+        : i % 10 === 3
+        ? "What positioning injury risk is associated with prolonged compression in this case?"
+        : i % 10 === 4
+        ? "What physiologic consequence occurs first during acute arterial blood loss?"
+        : i % 10 === 5
+        ? "Which nerve deficit pattern best matches the described operative injury?"
+        : i % 10 === 6
+        ? "What is the immediate priority when airway compromise indicators appear intraoperatively?"
+        : i % 10 === 7
+        ? "What is the safest response to a count discrepancy before closure?"
+        : i % 10 === 8
+        ? "Which hemostatic workflow is most appropriate during escalating bleeding?"
+        : "What should the scrub tech anticipate next based on the current operative stage?",
+    answer:
+      i % 10 === 0
+        ? "Isolate contamination immediately and replace affected sterile items."
+        : i % 10 === 1
+        ? "Use fine tissue instruments before traumatic clamps or heavy scissors."
+        : i % 10 === 2
+        ? "Protect nearby nerves/vessels using exposure awareness and positioning safety."
+        : i % 10 === 3
+        ? "Relieve compression and maintain anatomically neutral positioning."
+        : i % 10 === 4
+        ? "Heart rate elevation and perfusion compensation occur early."
+        : i % 10 === 5
+        ? "Motor weakness and sensory loss patterns help localize the nerve injury."
+        : i % 10 === 6
+        ? "Protect oxygenation and support airway access immediately."
+        : i % 10 === 7
+        ? "Pause closure and resolve the discrepancy before proceeding."
+        : i % 10 === 8
+        ? "Anticipate suction, clamps, ties, sponges, and exposure assistance."
+        : "Prepare instruments and workflow steps before the surgeon requests them.",
+    rationale:
+      "CST and surgical cognition training depends on anticipation, anatomy integration, sterile reasoning, neurovascular awareness, and physiologic consequence management under pressure.",
+  })),
+];
+
+function MassiveExamBankPhase() {
+  const [index, setIndex] = useState(0);
+  const [revealed, setRevealed] = useState(false);
+  const current = MASSIVE_CST_QUESTION_BANK[index];
+
+  function nextQuestion() {
+    setIndex((i) => (i + 1) % MASSIVE_CST_QUESTION_BANK.length);
+    setRevealed(false);
+  }
+
+  function randomQuestion() {
+    setIndex(Math.floor(Math.random() * MASSIVE_CST_QUESTION_BANK.length));
+    setRevealed(false);
+  }
+
+  return (
+    <section className="massiveExamPanel">
+      <div className="panelTopline">Phase 9 Massive CST Question + Scenario Bank</div>
+
+      <div className="examBankHeader">
+        <div>
+          <h3>Question {current.id} of {MASSIVE_CST_QUESTION_BANK.length}</h3>
+          <p>{current.category} · {current.difficulty}</p>
+        </div>
+        <div className="examBankBadge">
+          <strong>150+</strong>
+          <span>Integrated training prompts</span>
+        </div>
+      </div>
+
+      <div className="examQuestionCard">
+        <strong>Scenario prompt</strong>
+        <p>{current.question}</p>
+      </div>
+
+      {revealed && (
+        <>
+          <div className="examAnswerCard">
+            <strong>Correct reasoning</strong>
+            <span>{current.answer}</span>
+          </div>
+
+          <div className="examRationaleCard">
+            <strong>Clinical rationale</strong>
+            <span>{current.rationale}</span>
+          </div>
+        </>
+      )}
+
+      <div className="examActions">
+        <button onClick={() => setRevealed(true)}>Reveal Answer</button>
+        <button onClick={nextQuestion}>Next Question</button>
+        <button onClick={randomQuestion}>Random Scenario</button>
+      </div>
+    </section>
+  );
+}
+
+const OR_ENVIRONMENT_EVENTS = [
+  {
+    title: "Escalating bleeding during exposure",
+    surgeonTone: "Urgent",
+    distraction: "Anesthesia requests suction tubing adjustment while the surgeon asks for hemostats.",
+    priority: "Control bleeding while maintaining sterile awareness and communication.",
+    failure: "Delayed anticipation increases blood loss and operative instability.",
+  },
+  {
+    title: "Sterile break during instrument exchange",
+    surgeonTone: "Focused",
+    distraction: "The circulator asks about counts while the Mayo stand becomes disorganized.",
+    priority: "Protect sterility, reorganize workflow, and maintain count accuracy.",
+    failure: "Missed contamination can compromise patient safety.",
+  },
+  {
+    title: "Airway concern during positioning",
+    surgeonTone: "Calm but fast",
+    distraction: "The OR monitor alarm sounds while the patient is repositioned.",
+    priority: "Maintain airway access awareness and safe positioning coordination.",
+    failure: "Loss of situational awareness may delay recognition of patient instability.",
+  },
+];
+
+function LiveOREnvironmentSimulator() {
+  const [eventIndex, setEventIndex] = useState(0);
+  const [focus, setFocus] = useState(100);
+  const [timer, setTimer] = useState(45);
+  const [decision, setDecision] = useState(null);
+  const [loadScore, setLoadScore] = useState({ handled: 0, overloads: 0 });
+  const current = OR_ENVIRONMENT_EVENTS[eventIndex];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((t) => {
+        if (t <= 1) {
+          setFocus((f) => Math.max(0, f - 10));
+          return 45;
+        }
+        return t - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  function respond(type) {
+    setDecision(type);
+    if (type === "prioritize") {
+      setFocus((f) => Math.min(100, f + 8));
+      setLoadScore((s) => ({ handled: s.handled + 1, overloads: s.overloads }));
+    } else {
+      setFocus((f) => Math.max(0, f - 14));
+      setLoadScore((s) => ({ handled: s.handled, overloads: s.overloads + 1 }));
+    }
+  }
+
+  function nextEnvironment() {
+    setEventIndex((i) => (i + 1) % OR_ENVIRONMENT_EVENTS.length);
+    setDecision(null);
+    setTimer(45);
+  }
+
+  return (
+    <section className="orEnvironmentPanel">
+      <div className="panelTopline">Phase 8 Live OR Environment + Cognitive Load</div>
+
+      <div className="environmentHeader">
+        <div>
+          <h3>{current.title}</h3>
+          <p>Surgeon tone: {current.surgeonTone}</p>
+        </div>
+        <div className="environmentStats">
+          <strong>{focus}%</strong>
+          <span>Operative focus</span>
+        </div>
+      </div>
+
+      <div className="focusMeter">
+        <div style={{ width: `${focus}%` }} />
+      </div>
+
+      <div className="timerPanel">
+        <div>
+          <strong>Decision window</strong>
+          <span>{timer}s</span>
+        </div>
+        <div>
+          <strong>Handled</strong>
+          <span>{loadScore.handled}</span>
+        </div>
+        <div>
+          <strong>Overloads</strong>
+          <span>{loadScore.overloads}</span>
+        </div>
+      </div>
+
+      <div className="environmentScenario">
+        <strong>Environmental distraction</strong>
+        <p>{current.distraction}</p>
+      </div>
+
+      <div className="environmentPriority">
+        <strong>Primary operative priority</strong>
+        <span>{current.priority}</span>
+      </div>
+
+      <div className="environmentChoices">
+        <button onClick={() => respond("prioritize")}>Prioritize operative task correctly</button>
+        <button onClick={() => respond("delay")}>Lose focus / delayed response</button>
+      </div>
+
+      {decision && (
+        <div className={decision === "prioritize" ? "environmentFeedback good" : "environmentFeedback bad"}>
+          <strong>{decision === "prioritize" ? "Operative control maintained." : "Cognitive overload increased."}</strong>
+          <span>{decision === "prioritize" ? "Good situational awareness preserved procedural flow." : current.failure}</span>
+        </div>
+      )}
+
+      <div className="workflowActions">
+        <button onClick={nextEnvironment}>Next OR Environment</button>
+      </div>
+    </section>
+  );
+}
+
 function StructureIndex({ structures, selectedId, setSelectedId }) {
   const groups = useMemo(() => {
     const allIds = Array.from(new Set(structures.map((s) => s.id))).filter((id) => INFO[id]);
@@ -2472,7 +2716,7 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           height: auto;
           align-items: stretch;
         }
-        .leftPanel, .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel, .aiCoachPanel, .instrumentWorkflowPanel {
+        .leftPanel, .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel, .aiCoachPanel, .instrumentWorkflowPanel, .orEnvironmentPanel {
           background: linear-gradient(180deg, rgba(10,13,22,0.98), rgba(5,5,12,0.96));
           border: 1px solid rgba(240,216,144,0.22);
           border-radius: 14px;
@@ -2730,7 +2974,7 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           gap: 12px;
           align-items: stretch;
         }
-        .rightStack .cstPanel, .rightStack .cognitionPanel, .rightStack .orScenarioPanel, .rightStack .systemsPhasePanel, .rightStack .escalationPanel, .rightStack .aiCoachPanel, .rightStack .instrumentWorkflowPanel { grid-column: 1 / -1; }
+        .rightStack .cstPanel, .rightStack .cognitionPanel, .rightStack .orScenarioPanel, .rightStack .systemsPhasePanel, .rightStack .escalationPanel, .rightStack .aiCoachPanel, .rightStack .instrumentWorkflowPanel, .rightStack .orEnvironmentPanel, .rightStack .massiveExamPanel { grid-column: 1 / -1; }
         .infoPanel {
           display: flex;
           flex-direction: column;
@@ -2904,6 +3148,40 @@ export default function InteractiveHumanAnatomyReferenceTool() {
         .workflowFeedback.bad { background: rgba(184,48,32,0.14); }
         .workflowActions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .workflowActions button { border: 1px solid rgba(240,216,144,0.22); background: #0C0818; color: #F0D890; border-radius: 10px; padding: 8px 10px; font-weight: 800; cursor: pointer; }
+        .environmentHeader { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+        .environmentHeader h3 { margin: 0 0 6px; font-family: 'Libre Baskerville', serif; color: #F0D890; font-size: 22px; }
+        .environmentHeader p { margin: 0; color: #D88928; font-size: 13px; font-weight: 900; }
+        .environmentStats { text-align: right; min-width: 140px; }
+        .environmentStats strong { display: block; font-size: 30px; color: #F0D890; font-family: 'Libre Baskerville', serif; }
+        .environmentStats span { color: #A06820; font-size: 12px; }
+        .focusMeter { height: 12px; border-radius: 999px; background: rgba(255,255,255,0.06); overflow: hidden; border: 1px solid rgba(240,216,144,0.12); margin: 12px 0; }
+        .focusMeter div { height: 100%; background: linear-gradient(90deg, #B01828, #D88928, #4A9E65); transition: width 0.25s ease; }
+        .timerPanel { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-bottom: 10px; }
+        .timerPanel div { border: 1px solid rgba(240,216,144,0.12); border-radius: 12px; padding: 10px; background: rgba(255,255,255,0.025); }
+        .timerPanel strong { display: block; color: #F0D890; margin-bottom: 4px; }
+        .timerPanel span { color: #D88928; font-size: 20px; font-weight: 900; }
+        .environmentScenario, .environmentPriority { border: 1px solid rgba(240,216,144,0.14); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.025); margin-bottom: 10px; }
+        .environmentScenario strong, .environmentPriority strong { display: block; color: #F0D890; margin-bottom: 5px; }
+        .environmentScenario p, .environmentPriority span { margin: 0; color: #D69A55; line-height: 1.34; font-size: 13px; display: block; }
+        .environmentChoices { display: flex; flex-wrap: wrap; gap: 8px; }
+        .environmentChoices button { border: 1px solid rgba(240,216,144,0.22); background: #0C0818; color: #F0D890; border-radius: 10px; padding: 9px 11px; font-weight: 900; cursor: pointer; }
+        .environmentFeedback { margin-top: 10px; border-radius: 12px; padding: 10px; border: 1px solid rgba(240,216,144,0.14); display: grid; gap: 4px; }
+        .environmentFeedback strong { color: #F0D890; }
+        .environmentFeedback span { color: #D69A55; font-size: 13px; line-height: 1.32; }
+        .environmentFeedback.good { background: rgba(68,140,80,0.12); }
+        .environmentFeedback.bad { background: rgba(184,48,32,0.14); }
+        .examBankHeader { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+        .examBankHeader h3 { margin: 0 0 6px; font-family: 'Libre Baskerville', serif; color: #F0D890; font-size: 22px; }
+        .examBankHeader p { margin: 0; color: #D88928; font-size: 13px; font-weight: 900; }
+        .examBankBadge { text-align: right; min-width: 140px; }
+        .examBankBadge strong { display: block; font-size: 30px; color: #F0D890; font-family: 'Libre Baskerville', serif; }
+        .examBankBadge span { color: #A06820; font-size: 12px; }
+        .examQuestionCard, .examAnswerCard, .examRationaleCard { border: 1px solid rgba(240,216,144,0.14); border-radius: 14px; padding: 14px; background: rgba(255,255,255,0.025); margin-top: 10px; }
+        .examQuestionCard strong, .examAnswerCard strong, .examRationaleCard strong { display: block; color: #F0D890; margin-bottom: 6px; }
+        .examQuestionCard p { margin: 0; color: #F4D3A2; font-size: 18px; line-height: 1.42; font-family: 'Libre Baskerville', serif; }
+        .examAnswerCard span, .examRationaleCard span { color: #D69A55; line-height: 1.34; font-size: 13px; display: block; }
+        .examActions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .examActions button { border: 1px solid rgba(240,216,144,0.22); background: #0C0818; color: #F0D890; border-radius: 10px; padding: 9px 11px; font-weight: 900; cursor: pointer; }
         .layerChips { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
         .layerChips button { border: 1px solid rgba(240,216,144,0.14); background: rgba(255,255,255,0.035); color: #F0D890; border-radius: 999px; padding: 6px 9px; font-size: 12px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
         .layerChips button.off { opacity: 0.38; }
@@ -2988,8 +3266,10 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           .layout { display: block; height: auto; min-height: 0; }
           .leftPanel { display: none; }
           .rightStack { display: block; }
-          .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel, .aiCoachPanel, .instrumentWorkflowPanel { margin-bottom: 12px; }
-          .choiceGrid, .positionGrid, .orChoices, .systemsGrid, .eventTimeline, .coachGrid, .adaptiveInsights, .mayoStandGrid { grid-template-columns: 1fr; }
+          .infoPanel, .closePanel, .cstPanel, .cognitionPanel, .orScenarioPanel, .systemsPhasePanel, .escalationPanel, .aiCoachPanel, .instrumentWorkflowPanel, .orEnvironmentPanel, .massiveExamPanel { margin-bottom: 12px; }
+          .choiceGrid, .positionGrid, .orChoices, .systemsGrid, .eventTimeline, .coachGrid, .adaptiveInsights, .mayoStandGrid, .timerPanel { grid-template-columns: 1fr; }
+          .environmentHeader { display: block; }
+          .environmentStats { text-align: left; margin-top: 8px; }
           .workflowHeader { display: block; }
           .workflowScore { text-align: left; margin-top: 8px; }
           .coachHeader { display: block; }
@@ -3140,6 +3420,8 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           <InfoPanel selectedId={selectedId} tab={tab} setTab={setTab} />
           <CloseUpStudyPanel selectedId={selectedId} examMode={examMode} examStats={examStats} confidence={confidence} showFlow={showFlow} />
           <CSTPrepPanel selectedId={selectedId} />
+          <MassiveExamBankPhase />
+          <LiveOREnvironmentSimulator />
           <InstrumentWorkflowSimulator />
           <AdaptiveAICoach />
           <PhysiologicEscalationSimulator />
