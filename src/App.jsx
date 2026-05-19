@@ -1051,7 +1051,7 @@ function InfoPanel({ selectedId, tab, setTab }) {
   return (
     <aside className="infoPanel">
       <div className="panelTopline">Selected Structure</div>
-      <h2>{info.name}</h2>
+      <h2 className={info.name.length > 18 ? "longTitle" : ""}>{info.name}</h2>
       <div className="badge"><span style={{ background: system.dot }} />{system.label}</div>
       <div className="tabs" role="tablist">
         <button className={tab === "function" ? "active" : ""} onClick={() => setTab("function")}>Function</button>
@@ -1070,28 +1070,124 @@ function SCMCloseup() {
   return (
     <svg viewBox="0 0 420 330" className="closeSvg scmPlate" aria-label="Sternocleidomastoid regional anatomy close-up">
       <defs>
-        <radialGradient id="scmMuscleGrad" cx="34%" cy="24%" r="82%">
-          <stop offset="0%" stopColor="#FFE0A8" />
-          <stop offset="40%" stopColor="#C63C2A" />
-          <stop offset="100%" stopColor="#32070E" />
+        <radialGradient id="scmRealMuscle" cx="35%" cy="24%" r="82%">
+          <stop offset="0%" stopColor="#FFD9A3" />
+          <stop offset="35%" stopColor="#D95732" />
+          <stop offset="78%" stopColor="#8B1E19" />
+          <stop offset="100%" stopColor="#310711" />
         </radialGradient>
-        <radialGradient id="neckBoneGrad" cx="45%" cy="25%" r="80%">
+        <radialGradient id="scmSkinDepth" cx="42%" cy="20%" r="90%">
+          <stop offset="0%" stopColor="#B8825C" stopOpacity="0.42" />
+          <stop offset="60%" stopColor="#5A2A22" stopOpacity="0.24" />
+          <stop offset="100%" stopColor="#0B0710" stopOpacity="0.65" />
+        </radialGradient>
+        <radialGradient id="scmBone" cx="42%" cy="26%" r="76%">
           <stop offset="0%" stopColor="#FFF7E8" />
-          <stop offset="55%" stopColor="#E8DCC8" />
-          <stop offset="100%" stopColor="#7D6A52" />
+          <stop offset="54%" stopColor="#E8DCC8" />
+          <stop offset="100%" stopColor="#8A785D" />
+        </radialGradient>
+        <filter id="scmGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="0" dy="0" stdDeviation="2.2" floodColor="#FFF0B6" floodOpacity="0.65" />
+          <feDropShadow dx="0" dy="5" stdDeviation="5" floodColor="#000" floodOpacity="0.35" />
+        </filter>
+      </defs>
+
+      <rect width="420" height="330" rx="22" fill="#07050C" />
+      <text x="22" y="30" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="17">Selected focus: Sternocleidomastoid</text>
+      <text x="22" y="52" fill="#A06820" fontFamily="Source Sans 3" fontSize="12.5">Lateral neck plate: airway, carotid sheath, clavicle, cervical nerves</text>
+
+      <path d="M70 208 C104 126 168 82 260 84 C332 86 382 124 394 176 C384 236 320 286 208 292 C118 292 50 260 70 208 Z" fill="rgba(46,120,255,0.08)" stroke="rgba(128,184,208,0.18)" strokeWidth="2" />
+
+      <path d="M96 198 C126 154 160 128 204 112 C242 98 298 104 350 137 C345 174 326 205 294 231 C254 263 184 271 128 244 C104 233 91 216 96 198 Z" fill="url(#scmSkinDepth)" opacity="0.95" />
+
+      <path d="M103 212 C142 204 196 207 282 234" fill="none" stroke="url(#scmBone)" strokeWidth="22" strokeLinecap="round" opacity="0.9" />
+      <path d="M76 220 C112 206 142 206 166 214" fill="none" stroke="url(#scmBone)" strokeWidth="16" strokeLinecap="round" opacity="0.92" />
+      <path d="M108 212 C150 208 204 213 282 238" fill="none" stroke="#FFF7E8" strokeWidth="3" strokeLinecap="round" opacity="0.45" />
+
+      <path d="M196 80 C204 112 205 152 200 230" fill="none" stroke="#80B8D0" strokeWidth="10" strokeLinecap="round" opacity="0.68" />
+      <path d="M200 134 C184 148 174 166 164 194" fill="none" stroke="#BEEFFF" strokeWidth="5" strokeLinecap="round" opacity="0.74" />
+
+      <path d="M230 85 C254 126 256 178 236 238" fill="none" stroke="#B01828" strokeWidth="7" strokeLinecap="round" />
+      <path d="M246 88 C270 132 272 180 252 242" fill="none" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" opacity="0.88" />
+      <path d="M218 90 C198 126 188 168 184 238" fill="none" stroke="#F2C94C" strokeWidth="4.5" strokeLinecap="round" strokeDasharray="2 8" />
+
+      <path d="M252 68 C234 112 218 160 202 225 C195 252 184 272 168 286 C158 274 154 252 162 228 C178 178 198 126 218 82 C228 70 240 64 252 68 Z" fill="url(#scmRealMuscle)" stroke="#FFF0B6" strokeWidth="2.6" filter="url(#scmGlow)" />
+      <path d="M246 76 C226 120 208 174 190 236" fill="none" stroke="rgba(255,230,190,0.34)" strokeWidth="2" strokeLinecap="round" />
+      <path d="M231 79 C216 120 202 168 187 222" fill="none" stroke="rgba(80,10,12,0.28)" strokeWidth="2" strokeLinecap="round" />
+
+      <g fontFamily="Source Sans 3" fontSize="11" fontWeight="900">
+        <circle cx="223" cy="156" r="3.5" fill="#FFF0B6" />
+        <path d="M223 156 C282 150 314 144 356 134" fill="none" stroke="#FFF0B6" strokeWidth="1.3" />
+        <text x="292" y="129" fill="#F0D890">Sternocleidomastoid</text>
+
+        <path d="M232 116 C304 96 330 88 384 76" fill="none" stroke="#D8CCA8" strokeWidth="1" opacity="0.72" />
+        <text x="292" y="72" fill="#B01828">Carotid artery</text>
+
+        <path d="M196 128 C314 174 344 188 390 206" fill="none" stroke="#D8CCA8" strokeWidth="1" opacity="0.72" />
+        <text x="306" y="214" fill="#80B8D0">Trachea / airway</text>
+
+        <path d="M184 212 C278 246 324 258 380 278" fill="none" stroke="#D8CCA8" strokeWidth="1" opacity="0.72" />
+        <text x="288" y="286" fill="#F2C94C">Cervical nerve path</text>
+      </g>
+
+      <g fontFamily="Source Sans 3" fontSize="11.5" fontWeight="800">
+        <text x="24" y="315" fill="#E8DCC8">Bone</text>
+        <text x="70" y="315" fill="#C63C2A">Muscle</text>
+        <text x="132" y="315" fill="#D4C4A0">Tendon</text>
+        <text x="194" y="315" fill="#B01828">Artery</text>
+        <text x="252" y="315" fill="#2840A0">Vein</text>
+        <text x="302" y="315" fill="#F2C94C">Nerve</text>
+        <text x="354" y="315" fill="#80B8D0">Airway</text>
+      </g>
+    </svg>
+  );
+}
+
+function HeartCloseup() {
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg heartPlate" aria-label="Heart and great vessels close-up">
+      <defs>
+        <radialGradient id="heartGrad" cx="35%" cy="22%" r="80%">
+          <stop offset="0%" stopColor="#FFD1C8" />
+          <stop offset="45%" stopColor="#B01828" />
+          <stop offset="100%" stopColor="#3A0710" />
         </radialGradient>
       </defs>
       <rect width="420" height="330" rx="22" fill="#07050C" />
-      <text x="22" y="34" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">Sternocleidomastoid anatomy</text>
-      <text x="22" y="55" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Neck rotation, carotid relationship, airway landmarks, and cervical neurovascular anatomy</text>
-      <ellipse cx="210" cy="176" rx="150" ry="112" fill="rgba(50,120,255,0.08)" stroke="rgba(128,184,208,0.16)" strokeWidth="2" />
-      <path d="M206 68 C214 104 214 142 210 228" fill="none" stroke="url(#neckBoneGrad)" strokeWidth="18" strokeLinecap="round" opacity="0.92" />
-      <path d="M162 76 C128 102 116 134 118 174 C120 206 136 236 164 258 C182 236 192 202 194 160 C196 122 186 94 162 76 Z" fill="url(#scmMuscleGrad)" stroke="#FFF0B6" strokeWidth="2.4" />
-      <path d="M258 76 C292 102 304 134 302 174 C300 206 284 236 256 258 C238 236 228 202 226 160 C224 122 234 94 258 76 Z" fill="url(#scmMuscleGrad)" stroke="#FFF0B6" strokeWidth="2.4" />
-      <path d="M206 88 C206 132 206 186 206 252" fill="none" stroke="#80B8D0" strokeWidth="8" strokeLinecap="round" opacity="0.75" />
-      <path d="M238 86 C256 122 260 176 248 228" fill="none" stroke="#B01828" strokeWidth="6" strokeLinecap="round" />
-      <path d="M136 96 C124 136 128 186 148 236" fill="none" stroke="#2840A0" strokeWidth="5" strokeLinecap="round" opacity="0.84" />
-      <path d="M228 92 C208 124 198 164 194 230" fill="none" stroke="#F2C94C" strokeWidth="4" strokeDasharray="2 8" strokeLinecap="round" />
+      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">Heart + great vessels</text>
+      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Flow logic: vena cava → right heart → lungs → left heart → aorta</text>
+      <path d="M200 84 C178 58 128 72 126 126 C124 184 172 228 210 270 C248 228 296 184 294 126 C292 72 242 58 220 84 C214 93 206 93 200 84 Z" fill="url(#heartGrad)" stroke="#F0D890" strokeWidth="2.4" />
+      <path d="M182 116 C202 136 210 172 210 246 M238 116 C218 136 210 172 210 246 M158 170 C188 184 232 184 262 170" fill="none" stroke="rgba(255,220,190,0.4)" strokeWidth="2" />
+      <path d="M214 82 C244 58 252 42 238 30 C224 18 194 28 196 54 C198 72 220 72 222 52" fill="none" stroke="#B01828" strokeWidth="13" strokeLinecap="round" />
+      <path d="M172 62 C178 96 174 132 158 160" fill="none" stroke="#2840A0" strokeWidth="12" strokeLinecap="round" />
+      <path d="M252 68 C236 96 240 130 266 154" fill="none" stroke="#2840A0" strokeWidth="10" strokeLinecap="round" opacity="0.85" />
+      <g fontFamily="Source Sans 3" fontSize="12" fontWeight="900">
+        <text x="282" y="42" fill="#B01828">Aorta</text>
+        <text x="52" y="76" fill="#2840A0">Vena cava</text>
+        <text x="274" y="160" fill="#2840A0">Pulmonary vessels</text>
+        <text x="120" y="290" fill="#F0D890">Chambers shown as faint internal walls</text>
+      </g>
+    </svg>
+  );
+}
+
+function FemoralCloseup() {
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg femoralPlate" aria-label="Femoral triangle close-up">
+      <rect width="420" height="330" rx="22" fill="#07050C" />
+      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">Femoral triangle</text>
+      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">NAVEL order: nerve, artery, vein, empty space, lymphatics</text>
+      <path d="M96 70 C150 96 202 112 322 92 C298 160 268 230 222 290 C174 250 132 178 96 70 Z" fill="rgba(184,48,32,0.18)" stroke="rgba(240,216,144,0.16)" />
+      <path d="M196 78 C182 140 178 218 186 292" stroke="#F2C94C" strokeWidth="8" strokeLinecap="round" strokeDasharray="2 10" fill="none" />
+      <path d="M220 76 C214 138 214 218 224 292" stroke="#B01828" strokeWidth="10" strokeLinecap="round" fill="none" />
+      <path d="M244 76 C250 138 250 218 240 292" stroke="#2840A0" strokeWidth="10" strokeLinecap="round" fill="none" />
+      <path d="M92 78 C146 84 236 86 326 76" stroke="#D4C4A0" strokeWidth="10" strokeLinecap="round" fill="none" opacity="0.88" />
+      <g fontFamily="Source Sans 3" fontSize="12" fontWeight="900">
+        <text x="78" y="122" fill="#F2C94C">Femoral nerve</text>
+        <text x="246" y="154" fill="#B01828">Femoral artery</text>
+        <text x="270" y="194" fill="#2840A0">Femoral vein</text>
+        <text x="84" y="306" fill="#F0D890">High-yield for access, hemorrhage, pulse checks, and groin exposure</text>
+      </g>
     </svg>
   );
 }
@@ -1251,7 +1347,15 @@ function CloseUpStudyPanel({ selectedId, examMode, examStats, confidence, showFl
           </button>
         ))}
       </div>
-      {selectedId === "lungs" ? <LungLobesCloseup /> : (selectedId?.toLowerCase().includes("sternocleidomastoid") || selectedId?.toLowerCase().includes("scm")) ? <SCMCloseup /> : (selectedId?.includes("biceps")) ? <BicepsCloseup side={selectedId?.includes("left") ? "Left" : "Right"} /> : (
+      {(() => {
+        const selectedKey = selectedId || "";
+        const selectedName = (INFO[selectedId]?.name || "").toLowerCase();
+        if (selectedKey === "lungs" || selectedName.includes("lung")) return <LungLobesCloseup />;
+        if (selectedKey === "heart" || selectedKey === "aorta" || selectedKey === "vena_cava" || selectedName.includes("heart") || selectedName.includes("aorta") || selectedName.includes("vena cava")) return <HeartCloseup />;
+        if (selectedKey === "femoral_popliteal_tibial" || selectedName.includes("femoral")) return <FemoralCloseup />;
+        if (selectedKey.includes("scm") || selectedName.includes("sternocleidomastoid")) return <SCMCloseup />;
+        if (selectedKey.includes("biceps") || selectedName.includes("biceps")) return <BicepsCloseup side={selectedKey.includes("left") || selectedKey.endsWith("_l") ? "Left" : "Right"} />;
+        return (
       <svg viewBox="0 0 420 330" className={showFlow ? "closeSvg flowMode" : "closeSvg"} aria-label={`Layered close-up view of ${info.name}`}>
         <defs>
           <radialGradient id="closeMuscle" cx="40%" cy="28%" r="75%">
@@ -1314,7 +1418,8 @@ function CloseUpStudyPanel({ selectedId, examMode, examStats, confidence, showFl
           <text x="370" y="304" fill="#80B8D0">Air</text>
         </g>
       </svg>
-      )}
+        );
+      })()}
       <div className="examGrid">
         <div><strong>System</strong><span style={{ color: system.dot }}>{system.label}</span></div>
         <div><strong>RN exam angle</strong><span>Landmarks, perfusion, airway/breathing/circulation relationships, injury red flags, and patient-assessment relevance.</span></div>
@@ -3010,7 +3115,7 @@ export default function InteractiveHumanAnatomyReferenceTool() {
         .rightStack {
           min-height: 0;
           display: grid;
-          grid-template-columns: minmax(250px, 0.9fr) minmax(280px, 1.1fr);
+          grid-template-columns: minmax(285px, 0.95fr) minmax(320px, 1.05fr);
           grid-template-rows: auto auto;
           gap: 12px;
           align-items: stretch;
@@ -3029,9 +3134,12 @@ export default function InteractiveHumanAnatomyReferenceTool() {
         }
         .closePanel h3 {
           font-family: 'Libre Baskerville', serif;
-          font-size: 18px;
+          font-size: clamp(17px, 1.45vw, 20px);
           line-height: 1.12;
           margin: 0 0 8px;
+          max-width: 100%;
+          overflow-wrap: anywhere;
+          word-break: break-word;
         }
         .closeIntro {
           color: #D88928;
@@ -3254,10 +3362,15 @@ export default function InteractiveHumanAnatomyReferenceTool() {
         .badFeedback { color: #FF938A; }
         .infoPanel h2 {
           font-family: 'Libre Baskerville', serif;
-          font-size: clamp(28px, 2.7vw, 42px);
-          line-height: 1.02;
+          font-size: clamp(24px, 2.15vw, 38px);
+          line-height: 1.03;
           margin: 0 0 14px;
+          max-width: 100%;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          hyphens: auto;
         }
+        .infoPanel h2.longTitle { font-size: clamp(20px, 1.75vw, 30px); }
         .badge { display: inline-flex; align-items: center; gap: 8px; color: ${COLORS.gold}; border: 1px solid rgba(240,216,144,0.14); background: rgba(240,216,144,0.05); padding: 8px 10px; border-radius: 999px; width: fit-content; font-weight: 800; }
         .badge span { width: 11px; height: 11px; border-radius: 50%; box-shadow: 0 0 12px currentColor; }
         .tabs {
