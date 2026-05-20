@@ -1143,6 +1143,76 @@ function SCMCloseup() {
   );
 }
 
+function SkeletalCloseup({ info }) {
+  const name = info?.name || "Skeletal Structure";
+  const lower = name.toLowerCase();
+  const region = lower.includes("skull") || lower.includes("mandible") ? "Head / facial skeleton"
+    : lower.includes("clavicle") || lower.includes("scapula") || lower.includes("humerus") || lower.includes("radius") || lower.includes("ulna") || lower.includes("carpal") ? "Upper limb / shoulder girdle"
+    : lower.includes("rib") || lower.includes("sternum") ? "Thoracic cage"
+    : lower.includes("pelvis") ? "Pelvic ring"
+    : lower.includes("femur") || lower.includes("patella") || lower.includes("tibia") || lower.includes("fibula") || lower.includes("tarsal") || lower.includes("metatarsal") ? "Lower limb skeleton"
+    : "Skeletal anatomy";
+
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg skeletalPlate" aria-label={`${name} skeletal regional close-up`}>
+      <defs>
+        <radialGradient id="skeletalPlateBone" cx="42%" cy="22%" r="80%">
+          <stop offset="0%" stopColor="#FFFFFF" />
+          <stop offset="48%" stopColor="#E8DCC8" />
+          <stop offset="100%" stopColor="#766348" />
+        </radialGradient>
+        <radialGradient id="skeletalPlateJoint" cx="40%" cy="22%" r="72%">
+          <stop offset="0%" stopColor="#FFF4DE" />
+          <stop offset="58%" stopColor="#D4C4A0" />
+          <stop offset="100%" stopColor="#7A684A" />
+        </radialGradient>
+        <filter id="bonePlateGlow" x="-35%" y="-35%" width="170%" height="170%">
+          <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#FFF1C7" floodOpacity="0.45" />
+          <feDropShadow dx="0" dy="5" stdDeviation="6" floodColor="#000" floodOpacity="0.35" />
+        </filter>
+      </defs>
+      <rect width="420" height="330" rx="22" fill="#07050C" />
+      <text x="22" y="31" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="17">{name}</text>
+      <text x="22" y="53" fill="#A06820" fontFamily="Source Sans 3" fontSize="12.5">{region}: bone landmarks, joints, tendons, vessels, and nerve-risk zones</text>
+
+      <path d="M58 178 C102 90 210 58 326 94 C374 110 396 156 374 214 C340 286 212 296 108 246 C66 226 42 202 58 178 Z" fill="rgba(46,120,255,0.08)" stroke="rgba(128,184,208,0.18)" strokeWidth="2" />
+
+      <g filter="url(#bonePlateGlow)">
+        <path d="M88 164 C132 124 196 112 276 120 C314 124 344 140 364 160" fill="none" stroke="url(#skeletalPlateBone)" strokeWidth="24" strokeLinecap="round" />
+        <path d="M118 170 C154 158 194 154 236 160 M260 164 C302 166 328 174 352 190" fill="none" stroke="#FFF7E8" strokeWidth="4" strokeLinecap="round" opacity="0.55" />
+        <circle cx="92" cy="164" r="18" fill="url(#skeletalPlateJoint)" stroke="#FFF7E8" strokeWidth="2" />
+        <circle cx="364" cy="160" r="17" fill="url(#skeletalPlateJoint)" stroke="#FFF7E8" strokeWidth="2" />
+      </g>
+
+      <path d="M116 206 C154 188 226 182 322 206" fill="none" stroke="#D4C4A0" strokeWidth="9" strokeLinecap="round" opacity="0.9" />
+      <path d="M126 134 C180 124 234 126 334 100" fill="none" stroke="#B01828" strokeWidth="7" strokeLinecap="round" opacity="0.92" />
+      <path d="M132 152 C202 174 264 178 350 220" fill="none" stroke="#2840A0" strokeWidth="7" strokeLinecap="round" opacity="0.84" />
+      <path d="M108 116 C166 154 220 170 276 168 C308 166 338 182 378 210" fill="none" stroke="#F2C94C" strokeWidth="5" strokeLinecap="round" strokeDasharray="2 9" />
+
+      <path d="M170 142 C204 126 252 130 294 154 C260 182 202 190 156 170 C158 158 162 150 170 142 Z" fill="url(#skeletalPlateBone)" stroke="#FFF0B6" strokeWidth="3" filter="url(#bonePlateGlow)" opacity="0.96" />
+
+      <g fontFamily="Source Sans 3" fontSize="11" fontWeight="900">
+        <circle cx="226" cy="156" r="3.5" fill="#FFF0B6" />
+        <path d="M226 156 C286 146 326 136 384 122" fill="none" stroke="#FFF0B6" strokeWidth="1.2" />
+        <text x="292" y="118" fill="#F0D890">Selected bone landmark</text>
+        <path d="M126 134 C84 112 62 102 32 92" fill="none" stroke="#D8CCA8" strokeWidth="1" opacity="0.7" />
+        <text x="24" y="88" fill="#B01828">Arterial relation</text>
+        <path d="M108 116 C80 142 58 164 38 192" fill="none" stroke="#D8CCA8" strokeWidth="1" opacity="0.7" />
+        <text x="24" y="204" fill="#F2C94C">Nerve caution zone</text>
+      </g>
+
+      <g fontFamily="Source Sans 3" fontSize="11.5" fontWeight="800">
+        <text x="24" y="315" fill="#E8DCC8">Bone</text>
+        <text x="78" y="315" fill="#D4C4A0">Tendon/Ligament</text>
+        <text x="180" y="315" fill="#B01828">Artery</text>
+        <text x="238" y="315" fill="#2840A0">Vein</text>
+        <text x="292" y="315" fill="#F2C94C">Nerve</text>
+        <text x="346" y="315" fill="#80B8D0">Region</text>
+      </g>
+    </svg>
+  );
+}
+
 function HeartCloseup() {
   return (
     <svg viewBox="0 0 420 330" className="closeSvg heartPlate" aria-label="Heart and great vessels close-up">
@@ -1351,6 +1421,7 @@ function CloseUpStudyPanel({ selectedId, examMode, examStats, confidence, showFl
         const selectedKey = selectedId || "";
         const selectedName = (INFO[selectedId]?.name || "").toLowerCase();
         if (selectedKey === "lungs" || selectedName.includes("lung")) return <LungLobesCloseup />;
+        if (info.system === "skeletal") return <SkeletalCloseup info={info} />;
         if (selectedKey === "heart" || selectedKey === "aorta" || selectedKey === "vena_cava" || selectedName.includes("heart") || selectedName.includes("aorta") || selectedName.includes("vena cava")) return <HeartCloseup />;
         if (selectedKey === "femoral_popliteal_tibial" || selectedName.includes("femoral")) return <FemoralCloseup />;
         if (selectedKey.includes("scm") || selectedName.includes("sternocleidomastoid")) return <SCMCloseup />;
