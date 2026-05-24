@@ -2955,6 +2955,82 @@ function AtlasLayerLegend({ activeLayers = {}, onToggleLayer }) {
   );
 }
 
+const ATLAS_IMAGES = {
+  skull: "/atlas/skeletal/skull.png",
+  mandible: "/atlas/skeletal/mandible.png",
+  ribs_sternum: "/atlas/skeletal/rib-cage.png",
+  clavicle_scapula: "/atlas/skeletal/shoulder-girdle.png",
+  humerus_radius_ulna: "/atlas/skeletal/upper-limb-bones.png",
+  pelvis: "/atlas/skeletal/pelvis.png",
+  femur: "/atlas/skeletal/femur.png",
+  knee: "/atlas/skeletal/knee-patella-ligaments.png",
+  tibia_fibula: "/atlas/skeletal/tibia-fibula.png",
+  foot: "/atlas/skeletal/foot-ankle.png",
+
+  heart_great_vessels: "/atlas/cardiovascular/heart-great-vessels.png",
+  femoral_vessels: "/atlas/cardiovascular/femoral-triangle.png",
+
+  lungs: "/atlas/respiratory/lung-lobes-bronchi.png",
+  trachea_carina: "/atlas/respiratory/trachea-carina-bronchi.png",
+  diaphragm: "/atlas/respiratory/diaphragm.png",
+
+  sternocleidomastoid: "/atlas/muscular/lateral-neck-scm.png",
+  biceps: "/atlas/muscular/anterior-arm-biceps.png",
+  quadriceps: "/atlas/muscular/anterior-thigh-quadriceps.png",
+  hamstrings: "/atlas/muscular/posterior-thigh-hamstrings.png",
+  gastrocnemius: "/atlas/muscular/posterior-leg-gastrocnemius.png",
+
+  achilles_tendon: "/atlas/tendons/achilles-tendon.png",
+  patellar_tendon: "/atlas/tendons/patellar-tendon.png",
+  rotator_cuff: "/atlas/tendons/rotator-cuff.png",
+
+  brachial_plexus: "/atlas/nervous/brachial-plexus.png",
+  sciatic_nerve: "/atlas/nervous/sciatic-nerve.png",
+  common_peroneal_nerve: "/atlas/nervous/common-peroneal-nerve.png",
+  upper_limb_nerves: "/atlas/nervous/upper-limb-nerves.png",
+  phrenic_nerve: "/atlas/nervous/phrenic-nerve-diaphragm.png",
+};
+
+function ImageAtlasPlate({ atlasKey, name, info }) {
+  const src = ATLAS_IMAGES[atlasKey];
+
+  if (!src) {
+    return <PendingAtlasPlate name={name} atlasKey={atlasKey} />;
+  }
+
+  return (
+    <div className="imageAtlasPlate">
+      <div className="imageAtlasHeader">
+        <div>
+          <span>Image-based atlas plate</span>
+          <h4>{name}</h4>
+        </div>
+        <strong>{info?.system || "anatomy"}</strong>
+      </div>
+      <div className="imageAtlasCanvas">
+        <img
+          src={src}
+          alt={`${name} anatomy atlas plate`}
+          onError={(event) => {
+            event.currentTarget.style.display = "none";
+            const holder = event.currentTarget.closest(".imageAtlasCanvas");
+            if (holder) holder.classList.add("missingImage");
+          }}
+        />
+        <div className="missingImageMessage">
+          <strong>Atlas image not uploaded yet</strong>
+          <span>Add this file to your Vite project:</span>
+          <code>{src}</code>
+        </div>
+      </div>
+      <div className="imageAtlasFooter">
+        <span>Use this plate for visual recognition.</span>
+        <span>Use the text panels for function, clinical relevance, and exam reasoning.</span>
+      </div>
+    </div>
+  );
+}
+
 const ATLAS_ROUTES = {
   skull: SkullPlate,
   mandible: SkullPlate,
@@ -3004,9 +3080,11 @@ function AtlasRenderer({ selectedId, info }) {
     nerve: true,
     airway: true,
   });
+  const [useImageAtlas, setUseImageAtlas] = useState(true);
 
   const atlasKey = resolveAtlasKey({ selectedId, info });
   const AtlasComponent = ATLAS_ROUTES[atlasKey];
+  const imageSrc = ATLAS_IMAGES[atlasKey];
 
   function toggleLayer(layer) {
     setActiveLayers((prev) => ({ ...prev, [layer]: prev[layer] === false }));
@@ -3014,9 +3092,19 @@ function AtlasRenderer({ selectedId, info }) {
 
   return (
     <div className="atlasEngine" style={Object.fromEntries(Object.keys(activeLayers).map((key) => [`--show-${key}`, activeLayers[key] ? 1 : 0]))}>
-      <AtlasLayerLegend activeLayers={activeLayers} onToggleLayer={toggleLayer} />
+      <div className="atlasModeBar">
+        <button type="button" className={useImageAtlas ? "active" : ""} onClick={() => setUseImageAtlas(true)}>Image Atlas</button>
+        <button type="button" className={!useImageAtlas ? "active" : ""} onClick={() => setUseImageAtlas(false)}>Legacy SVG</button>
+      </div>
+      {!useImageAtlas && <AtlasLayerLegend activeLayers={activeLayers} onToggleLayer={toggleLayer} />}
       <div className="atlasViewport">
-        {AtlasComponent ? (
+        {useImageAtlas ? (
+          imageSrc ? (
+            <ImageAtlasPlate atlasKey={atlasKey} name={info?.name || "Selected anatomy"} info={info} />
+          ) : (
+            <PendingAtlasPlate name={info?.name} atlasKey={atlasKey} />
+          )
+        ) : AtlasComponent ? (
           <AtlasComponent info={info} side={normalizeAtlasText(info?.name).includes("left") ? "Left" : "Right"} activeLayers={activeLayers} />
         ) : (
           <PendingAtlasPlate name={info?.name} atlasKey={atlasKey} />
@@ -3557,6 +3645,129 @@ export default function InteractiveHumanAnatomyReferenceTool() {
           margin: 0 0 10px;
           font-size: 13px;
         }
+        .atlasModeBar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+        .atlasModeBar button {
+          border: 1px solid rgba(240,216,144,0.22);
+          background: rgba(12,8,24,0.92);
+          color: #F0D890;
+          border-radius: 999px;
+          padding: 7px 11px;
+          font-size: 12px;
+          font-weight: 900;
+          cursor: pointer;
+        }
+        .atlasModeBar button.active {
+          background: linear-gradient(180deg, rgba(184,48,32,0.86), rgba(111,24,23,0.88));
+          border-color: rgba(240,216,144,0.42);
+        }
+        .imageAtlasPlate {
+          width: 100%;
+          border: 1px solid rgba(240,216,144,0.16);
+          border-radius: 14px;
+          overflow: hidden;
+          background: #07050C;
+          box-shadow: inset 0 0 42px rgba(46,120,255,0.12), 0 18px 50px rgba(0,0,0,0.24);
+        }
+        .imageAtlasHeader {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 10px;
+          padding: 12px 14px;
+          border-bottom: 1px solid rgba(240,216,144,0.12);
+          background: linear-gradient(90deg, rgba(240,216,144,0.06), rgba(176,24,40,0.04));
+        }
+        .imageAtlasHeader span {
+          display: block;
+          color: #D88928;
+          font-size: 10px;
+          font-weight: 900;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          margin-bottom: 4px;
+        }
+        .imageAtlasHeader h4 {
+          margin: 0;
+          color: #F0D890;
+          font-family: 'Libre Baskerville', serif;
+          font-size: clamp(18px, 1.65vw, 25px);
+          line-height: 1.08;
+          overflow-wrap: anywhere;
+        }
+        .imageAtlasHeader strong {
+          color: #A06820;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          white-space: nowrap;
+        }
+        .imageAtlasCanvas {
+          position: relative;
+          min-height: 320px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background:
+            radial-gradient(circle at 50% 35%, rgba(240,216,144,0.06), transparent 40%),
+            #05030A;
+        }
+        .imageAtlasCanvas img {
+          width: 100%;
+          height: auto;
+          max-height: 540px;
+          object-fit: contain;
+          display: block;
+        }
+        .missingImageMessage {
+          display: none;
+          width: min(92%, 520px);
+          border: 1px solid rgba(240,216,144,0.22);
+          border-radius: 16px;
+          padding: 18px;
+          background: rgba(12,8,24,0.92);
+          text-align: left;
+        }
+        .imageAtlasCanvas.missingImage .missingImageMessage { display: grid; gap: 7px; }
+        .missingImageMessage strong { color: #F0D890; font-family: 'Libre Baskerville', serif; font-size: 18px; }
+        .missingImageMessage span { color: #D69A55; font-size: 13px; }
+        .missingImageMessage code {
+          color: #F0D890;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(240,216,144,0.14);
+          border-radius: 8px;
+          padding: 8px;
+          overflow-wrap: anywhere;
+        }
+        .imageAtlasFooter {
+          display: grid;
+          gap: 3px;
+          padding: 10px 14px;
+          border-top: 1px solid rgba(240,216,144,0.10);
+          color: #A06820;
+          font-size: 12px;
+          line-height: 1.25;
+        }
+        .pendingAtlas {
+          min-height: 260px;
+          border: 1px solid rgba(240,216,144,0.18);
+          border-radius: 14px;
+          padding: 18px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 8px;
+          background: radial-gradient(circle at 22% 18%, rgba(240,216,144,0.08), rgba(7,5,12,0.98) 58%);
+        }
+        .pendingAtlasKicker { color: #D88928; font-size: 11px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+        .pendingAtlas h4 { margin: 0; color: #F0D890; font-family: 'Libre Baskerville', serif; font-size: clamp(22px, 2vw, 32px); line-height: 1.05; overflow-wrap: anywhere; }
+        .pendingAtlas p { color: #D69A55; line-height: 1.42; margin: 0; font-size: 13px; }
+        .pendingAtlas span { color: #A06820; font-size: 12px; font-weight: 800; }
+        .atlasEngineLegend { display: flex; flex-wrap: wrap; gap: 7px; margin: 8px 0 10px; }
+        .atlasEngineLegend button { border: 1px solid rgba(240,216,144,0.16); background: rgba(255,255,255,0.035); color: #F0D890; border-radius: 999px; padding: 6px 9px; font-size: 12px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+        .atlasEngineLegend button.inactive { opacity: 0.38; }
+        .atlasEngineLegend span { width: 8px; height: 8px; border-radius: 999px; display: inline-block; }
+        .atlasViewport { width: 100%; }
+        .atlasEngineNotice { color: #8E6C38; font-size: 11px; line-height: 1.3; padding-top: 8px; }
         .closeSvg {
           width: 100%;
           display: block;
