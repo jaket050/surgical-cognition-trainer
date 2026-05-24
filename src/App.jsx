@@ -1143,74 +1143,168 @@ function SCMCloseup() {
   );
 }
 
-function SkeletalCloseup({ info }) {
-  const name = info?.name || "Skeletal Structure";
-  const lower = name.toLowerCase();
-  const region = lower.includes("skull") || lower.includes("mandible") ? "Head / facial skeleton"
-    : lower.includes("clavicle") || lower.includes("scapula") || lower.includes("humerus") || lower.includes("radius") || lower.includes("ulna") || lower.includes("carpal") ? "Upper limb / shoulder girdle"
-    : lower.includes("rib") || lower.includes("sternum") ? "Thoracic cage"
-    : lower.includes("pelvis") ? "Pelvic ring"
-    : lower.includes("femur") || lower.includes("patella") || lower.includes("tibia") || lower.includes("fibula") || lower.includes("tarsal") || lower.includes("metatarsal") ? "Lower limb skeleton"
-    : "Skeletal anatomy";
-
+function SkullPlate({ info }) {
   return (
-    <svg viewBox="0 0 420 330" className="closeSvg skeletalPlate" aria-label={`${name} skeletal regional close-up`}>
-      <defs>
-        <radialGradient id="skeletalPlateBone" cx="42%" cy="22%" r="80%">
-          <stop offset="0%" stopColor="#FFFFFF" />
-          <stop offset="48%" stopColor="#E8DCC8" />
-          <stop offset="100%" stopColor="#766348" />
-        </radialGradient>
-        <radialGradient id="skeletalPlateJoint" cx="40%" cy="22%" r="72%">
-          <stop offset="0%" stopColor="#FFF4DE" />
-          <stop offset="58%" stopColor="#D4C4A0" />
-          <stop offset="100%" stopColor="#7A684A" />
-        </radialGradient>
-        <filter id="bonePlateGlow" x="-35%" y="-35%" width="170%" height="170%">
-          <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#FFF1C7" floodOpacity="0.45" />
-          <feDropShadow dx="0" dy="5" stdDeviation="6" floodColor="#000" floodOpacity="0.35" />
-        </filter>
-      </defs>
+    <svg viewBox="0 0 420 330" className="closeSvg skullPlate" aria-label="Skull and mandible regional atlas">
+      <defs><radialGradient id="skullBone" cx="38%" cy="22%" r="78%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="52%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#77644A"/></radialGradient></defs>
       <rect width="420" height="330" rx="22" fill="#07050C" />
-      <text x="22" y="31" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="17">{name}</text>
-      <text x="22" y="53" fill="#A06820" fontFamily="Source Sans 3" fontSize="12.5">{region}: bone landmarks, joints, tendons, vessels, and nerve-risk zones</text>
-
-      <path d="M58 178 C102 90 210 58 326 94 C374 110 396 156 374 214 C340 286 212 296 108 246 C66 226 42 202 58 178 Z" fill="rgba(46,120,255,0.08)" stroke="rgba(128,184,208,0.18)" strokeWidth="2" />
-
-      <g filter="url(#bonePlateGlow)">
-        <path d="M88 164 C132 124 196 112 276 120 C314 124 344 140 364 160" fill="none" stroke="url(#skeletalPlateBone)" strokeWidth="24" strokeLinecap="round" />
-        <path d="M118 170 C154 158 194 154 236 160 M260 164 C302 166 328 174 352 190" fill="none" stroke="#FFF7E8" strokeWidth="4" strokeLinecap="round" opacity="0.55" />
-        <circle cx="92" cy="164" r="18" fill="url(#skeletalPlateJoint)" stroke="#FFF7E8" strokeWidth="2" />
-        <circle cx="364" cy="160" r="17" fill="url(#skeletalPlateJoint)" stroke="#FFF7E8" strokeWidth="2" />
-      </g>
-
-      <path d="M116 206 C154 188 226 182 322 206" fill="none" stroke="#D4C4A0" strokeWidth="9" strokeLinecap="round" opacity="0.9" />
-      <path d="M126 134 C180 124 234 126 334 100" fill="none" stroke="#B01828" strokeWidth="7" strokeLinecap="round" opacity="0.92" />
-      <path d="M132 152 C202 174 264 178 350 220" fill="none" stroke="#2840A0" strokeWidth="7" strokeLinecap="round" opacity="0.84" />
-      <path d="M108 116 C166 154 220 170 276 168 C308 166 338 182 378 210" fill="none" stroke="#F2C94C" strokeWidth="5" strokeLinecap="round" strokeDasharray="2 9" />
-
-      <path d="M170 142 C204 126 252 130 294 154 C260 182 202 190 156 170 C158 158 162 150 170 142 Z" fill="url(#skeletalPlateBone)" stroke="#FFF0B6" strokeWidth="3" filter="url(#bonePlateGlow)" opacity="0.96" />
-
-      <g fontFamily="Source Sans 3" fontSize="11" fontWeight="900">
-        <circle cx="226" cy="156" r="3.5" fill="#FFF0B6" />
-        <path d="M226 156 C286 146 326 136 384 122" fill="none" stroke="#FFF0B6" strokeWidth="1.2" />
-        <text x="292" y="118" fill="#F0D890">Selected bone landmark</text>
-        <path d="M126 134 C84 112 62 102 32 92" fill="none" stroke="#D8CCA8" strokeWidth="1" opacity="0.7" />
-        <text x="24" y="88" fill="#B01828">Arterial relation</text>
-        <path d="M108 116 C80 142 58 164 38 192" fill="none" stroke="#D8CCA8" strokeWidth="1" opacity="0.7" />
-        <text x="24" y="204" fill="#F2C94C">Nerve caution zone</text>
-      </g>
-
-      <g fontFamily="Source Sans 3" fontSize="11.5" fontWeight="800">
-        <text x="24" y="315" fill="#E8DCC8">Bone</text>
-        <text x="78" y="315" fill="#D4C4A0">Tendon/Ligament</text>
-        <text x="180" y="315" fill="#B01828">Artery</text>
-        <text x="238" y="315" fill="#2840A0">Vein</text>
-        <text x="292" y="315" fill="#F2C94C">Nerve</text>
-        <text x="346" y="315" fill="#80B8D0">Region</text>
+      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Skull / Mandible"}</text>
+      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Cranial protection, mandible/TMJ, airway alignment, facial trauma landmarks</text>
+      <path d="M150 62 C162 28 258 28 270 62 C286 112 266 172 214 178 C164 174 134 114 150 62 Z" fill="url(#skullBone)" stroke="#FFF7E8" strokeWidth="2" />
+      <path d="M164 172 C180 210 242 210 258 172 C256 238 232 272 210 274 C188 272 164 238 164 172 Z" fill="url(#skullBone)" stroke="#FFF7E8" strokeWidth="2" />
+      <path d="M178 94 C194 86 208 92 210 108 C212 92 226 86 242 94 M190 146 C206 154 226 154 242 146" fill="none" stroke="rgba(60,40,28,0.45)" strokeWidth="4" strokeLinecap="round" />
+      <path d="M124 150 C92 160 72 176 44 204" stroke="#B01828" strokeWidth="6" strokeLinecap="round" fill="none" />
+      <path d="M296 150 C328 160 348 176 376 204" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" />
+      <path d="M210 216 C190 248 178 270 162 294 M210 216 C230 248 242 270 258 294" stroke="#F2C94C" strokeWidth="4" strokeLinecap="round" strokeDasharray="2 9" fill="none" />
+      <g fontFamily="Source Sans 3" fontSize="12" fontWeight="900">
+        <text x="34" y="222" fill="#B01828">Facial artery region</text><text x="258" y="222" fill="#2840A0">Venous drainage</text><text x="128" y="306" fill="#F2C94C">Trigeminal/facial nerve relevance</text>
       </g>
     </svg>
   );
+}
+
+function ThoracicCagePlate({ info }) {
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg thoraxPlate" aria-label="Ribs and sternum regional atlas">
+      <defs><radialGradient id="ribBone" cx="44%" cy="25%" r="82%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="54%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#7E6B50"/></radialGradient></defs>
+      <rect width="420" height="330" rx="22" fill="#07050C" />
+      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Ribs and Sternum"}</text>
+      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Thoracic cage: ventilation mechanics, intercostal spaces, chest tube danger zones</text>
+      <path d="M210 70 C204 118 204 200 210 260" stroke="url(#ribBone)" strokeWidth="18" strokeLinecap="round" fill="none" />
+      {[0,1,2,3,4,5].map((r)=><g key={r}>
+        <path d={`M202 ${92+r*26} C160 ${88+r*23} 118 ${108+r*18} ${82} ${142+r*17}`} stroke="url(#ribBone)" strokeWidth="8" strokeLinecap="round" fill="none" />
+        <path d={`M218 ${92+r*26} C260 ${88+r*23} 302 ${108+r*18} ${338} ${142+r*17}`} stroke="url(#ribBone)" strokeWidth="8" strokeLinecap="round" fill="none" />
+      </g>)}
+      <path d="M154 82 C174 72 194 72 210 84 C226 72 246 72 266 82" stroke="#D4C4A0" strokeWidth="8" strokeLinecap="round" fill="none" />
+      <path d="M100 160 C154 144 264 144 320 160" stroke="#B01828" strokeWidth="5" strokeLinecap="round" fill="none" opacity="0.9" />
+      <path d="M96 178 C156 194 264 194 324 178" stroke="#2840A0" strokeWidth="5" strokeLinecap="round" fill="none" opacity="0.85" />
+      <path d="M86 142 C120 160 144 178 166 212 M334 142 C300 160 276 178 254 212" stroke="#F2C94C" strokeWidth="4" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
+      <g fontFamily="Source Sans 3" fontSize="12" fontWeight="900"><text x="32" y="294" fill="#F0D890">CST cue: count ribs, protect intercostal vessels/nerves, understand chest tube landmarks.</text></g>
+    </svg>
+  );
+}
+
+function ShoulderGirdlePlate({ info }) {
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg shoulderPlate" aria-label="Clavicle and scapula regional atlas">
+      <defs><radialGradient id="shoulderBone" cx="38%" cy="22%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="52%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#79664B"/></radialGradient><radialGradient id="cuffMuscle" cx="34%" cy="24%" r="82%"><stop offset="0%" stopColor="#FFD4A0"/><stop offset="52%" stopColor="#B83020"/><stop offset="100%" stopColor="#3C0711"/></radialGradient></defs>
+      <rect width="420" height="330" rx="22" fill="#07050C" />
+      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Shoulder Girdle"}</text>
+      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Clavicle/scapula, axillary vessels, brachial plexus, rotator cuff relations</text>
+      <path d="M84 104 C142 78 190 76 210 94 C230 76 278 78 336 104" stroke="url(#shoulderBone)" strokeWidth="13" strokeLinecap="round" fill="none" />
+      <path d="M110 124 C156 96 198 112 214 160 C198 220 150 250 104 214 C92 178 92 146 110 124 Z" fill="url(#shoulderBone)" stroke="#FFF7E8" strokeWidth="2" opacity="0.95" />
+      <path d="M310 124 C264 96 222 112 206 160 C222 220 270 250 316 214 C328 178 328 146 310 124 Z" fill="url(#shoulderBone)" stroke="#FFF7E8" strokeWidth="2" opacity="0.95" />
+      <path d="M118 152 C164 130 202 142 210 174 C172 196 132 190 104 166 Z M302 152 C256 130 218 142 210 174 C248 196 288 190 316 166 Z" fill="url(#cuffMuscle)" opacity="0.8" />
+      <path d="M92 108 C120 146 142 184 158 238 M328 108 C300 146 278 184 262 238" stroke="#F2C94C" strokeWidth="5" strokeLinecap="round" strokeDasharray="2 9" fill="none" />
+      <path d="M84 118 C132 124 176 126 214 134 M336 118 C288 124 244 126 206 134" stroke="#B01828" strokeWidth="6" strokeLinecap="round" fill="none" />
+      <text x="110" y="292" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">Protect subclavian/axillary vessels and brachial plexus during positioning.</text>
+    </svg>
+  );
+}
+
+function UpperLimbBonePlate({ info }) {
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg upperLimbBonePlate" aria-label="Upper limb bone regional atlas">
+      <defs><radialGradient id="armBone" cx="42%" cy="22%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#78654A"/></radialGradient></defs>
+      <rect width="420" height="330" rx="22" fill="#07050C" />
+      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Upper Limb Bones"}</text>
+      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Humerus/radius/ulna/carpals: radial nerve, brachial artery, wrist compartments</text>
+      <path d="M206 70 C222 112 222 164 208 214" stroke="url(#armBone)" strokeWidth="23" strokeLinecap="round" fill="none" />
+      <path d="M198 216 C184 252 174 282 166 306" stroke="url(#armBone)" strokeWidth="12" strokeLinecap="round" fill="none" />
+      <path d="M218 216 C230 252 240 282 250 306" stroke="url(#armBone)" strokeWidth="12" strokeLinecap="round" fill="none" />
+      <circle cx="206" cy="68" r="18" fill="url(#armBone)" stroke="#FFF7E8" strokeWidth="2"/><circle cx="208" cy="214" r="16" fill="url(#armBone)" stroke="#FFF7E8" strokeWidth="2"/>
+      <path d="M250 70 C268 126 266 190 238 252" stroke="#B01828" strokeWidth="7" strokeLinecap="round" fill="none" />
+      <path d="M270 90 C288 148 286 206 260 270" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.85" />
+      <path d="M166 84 C138 144 142 210 172 276" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
+      <text x="72" y="292" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">Exam cue: humeral shaft fracture can endanger radial nerve; check distal perfusion.</text>
+    </svg>
+  );
+}
+
+function PelvisPlate({ info }) {
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg pelvisPlate" aria-label="Pelvic ring regional atlas">
+      <defs><radialGradient id="pelvisBone" cx="42%" cy="24%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#766348"/></radialGradient></defs>
+      <rect width="420" height="330" rx="22" fill="#07050C" />
+      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Pelvis"}</text>
+      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Pelvic ring, iliac vessels, femoral canal pathway, positioning and hemorrhage risk</text>
+      <path d="M112 92 C166 76 192 118 210 170 C228 118 254 76 308 92 C306 176 264 244 210 250 C156 244 114 176 112 92 Z" fill="url(#pelvisBone)" stroke="#FFF7E8" strokeWidth="2" />
+      <path d="M156 140 C184 154 200 186 210 236 C220 186 236 154 264 140" fill="none" stroke="#766348" strokeWidth="10" strokeLinecap="round" opacity="0.55" />
+      <path d="M186 116 C168 160 160 216 154 284 M234 116 C252 160 260 216 266 284" stroke="#B01828" strokeWidth="7" strokeLinecap="round" fill="none" />
+      <path d="M170 122 C146 166 138 218 136 286 M250 122 C274 166 282 218 284 286" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.85" />
+      <path d="M142 110 C114 164 108 224 122 284 M278 110 C306 164 312 224 298 284" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
+      <text x="70" y="306" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">CST cue: pelvic trauma can hide major blood loss; protect iliac/femoral vessels.</text>
+    </svg>
+  );
+}
+
+function FemurPlate({ info }) {
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg femurPlate" aria-label="Femur regional atlas">
+      <defs><radialGradient id="femurBone" cx="42%" cy="22%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#756348"/></radialGradient></defs>
+      <rect width="420" height="330" rx="22" fill="#07050C" />
+      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Femur"}</text>
+      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Hip-to-knee load transfer, femoral vessels, sciatic/femoral nerve relations</text>
+      <path d="M184 76 C220 106 232 180 218 270" stroke="url(#femurBone)" strokeWidth="28" strokeLinecap="round" fill="none" />
+      <circle cx="176" cy="70" r="24" fill="url(#femurBone)" stroke="#FFF7E8" strokeWidth="2" />
+      <path d="M202 272 C180 280 160 288 146 302 M218 270 C242 278 262 288 278 302" stroke="url(#femurBone)" strokeWidth="16" strokeLinecap="round" fill="none" />
+      <path d="M246 82 C266 144 260 226 236 300" stroke="#B01828" strokeWidth="8" strokeLinecap="round" fill="none" />
+      <path d="M268 92 C288 154 282 230 256 300" stroke="#2840A0" strokeWidth="7" strokeLinecap="round" fill="none" opacity="0.85" />
+      <path d="M142 86 C120 154 128 230 166 296" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
+      <text x="70" y="318" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">High-yield: shaft fracture can cause significant blood loss and neurovascular risk.</text>
+    </svg>
+  );
+}
+
+function KneePlate({ info }) {
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg kneePlate" aria-label="Knee and patella regional atlas">
+      <defs><radialGradient id="kneeBone" cx="42%" cy="22%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#756348"/></radialGradient></defs>
+      <rect width="420" height="330" rx="22" fill="#07050C" />
+      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Patella / Knee"}</text>
+      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Patella, ACL/PCL region, popliteal vessels, peroneal nerve caution</text>
+      <path d="M158 82 C188 116 232 116 262 82" stroke="url(#kneeBone)" strokeWidth="26" strokeLinecap="round" fill="none" />
+      <path d="M168 252 C190 218 230 218 252 252" stroke="url(#kneeBone)" strokeWidth="24" strokeLinecap="round" fill="none" />
+      <circle cx="210" cy="162" r="28" fill="url(#kneeBone)" stroke="#FFF7E8" strokeWidth="2" />
+      <path d="M190 122 C218 154 228 190 230 232 M230 122 C202 154 192 190 190 232" stroke="#D4C4A0" strokeWidth="8" strokeLinecap="round" fill="none" />
+      <path d="M246 78 C270 130 270 204 246 284" stroke="#B01828" strokeWidth="7" strokeLinecap="round" fill="none" />
+      <path d="M268 90 C292 148 288 214 262 286" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" />
+      <path d="M304 100 C284 156 284 220 302 284" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
+      <text x="62" y="310" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">Positioning cue: fibular head compression can injure common peroneal nerve.</text>
+    </svg>
+  );
+}
+
+function LowerLegFootPlate({ info }) {
+  return (
+    <svg viewBox="0 0 420 330" className="closeSvg lowerLegPlate" aria-label="Lower leg and foot skeletal atlas">
+      <defs><radialGradient id="legBone" cx="42%" cy="22%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#756348"/></radialGradient></defs>
+      <rect width="420" height="330" rx="22" fill="#07050C" />
+      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Lower Leg / Foot"}</text>
+      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Tibia/fibula/tarsals/metatarsals: arches, pulses, peroneal nerve, compartment risk</text>
+      <path d="M184 72 C174 142 174 220 184 284" stroke="url(#legBone)" strokeWidth="22" strokeLinecap="round" fill="none" />
+      <path d="M228 76 C236 148 232 220 214 286" stroke="url(#legBone)" strokeWidth="12" strokeLinecap="round" fill="none" />
+      <path d="M156 286 C192 276 242 280 292 300" stroke="url(#legBone)" strokeWidth="18" strokeLinecap="round" fill="none" />
+      <path d="M246 88 C264 152 260 226 236 300" stroke="#B01828" strokeWidth="7" strokeLinecap="round" fill="none" />
+      <path d="M266 94 C286 158 280 226 258 304" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.86" />
+      <path d="M222 82 C258 116 278 150 292 194" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
+      <path d="M154 292 C190 306 244 308 306 302" stroke="#D4C4A0" strokeWidth="7" strokeLinecap="round" fill="none" />
+      <text x="42" y="318" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">Exam cue: dorsalis pedis/posterior tibial pulses, foot drop, arch support, compartment syndrome.</text>
+    </svg>
+  );
+}
+
+function SkeletalCloseup({ info }) {
+  const name = (info?.name || "").toLowerCase();
+  if (name.includes("skull") || name.includes("mandible")) return <SkullPlate info={info} />;
+  if (name.includes("rib") || name.includes("sternum")) return <ThoracicCagePlate info={info} />;
+  if (name.includes("clavicle") || name.includes("scapula")) return <ShoulderGirdlePlate info={info} />;
+  if (name.includes("humerus") || name.includes("radius") || name.includes("ulna") || name.includes("carpal")) return <UpperLimbBonePlate info={info} />;
+  if (name.includes("pelvis")) return <PelvisPlate info={info} />;
+  if (name.includes("femur")) return <FemurPlate info={info} />;
+  if (name.includes("patella")) return <KneePlate info={info} />;
+  if (name.includes("tibia") || name.includes("fibula") || name.includes("tarsal") || name.includes("metatarsal")) return <LowerLegFootPlate info={info} />;
+  return <ThoracicCagePlate info={info} />;
 }
 
 function HeartCloseup() {
