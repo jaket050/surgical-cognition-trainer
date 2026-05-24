@@ -1603,16 +1603,8 @@ function CloseUpStudyPanel({ selectedId, examMode, examStats, confidence, showFl
           </button>
         ))}
       </div>
-      {(() => {
-        const selectedKey = selectedId || "";
-        const selectedName = (INFO[selectedId]?.name || "").toLowerCase();
-        if (selectedKey === "lungs" || selectedName.includes("lung")) return <LungLobesCloseup />;
-        if (info.system === "skeletal") return <SkeletalCloseup info={info} />;
-        if (selectedKey === "heart" || selectedKey === "aorta" || selectedKey === "vena_cava" || selectedName.includes("heart") || selectedName.includes("aorta") || selectedName.includes("vena cava")) return <HeartCloseup />;
-        if (selectedKey === "femoral_popliteal_tibial" || selectedName.includes("femoral")) return <FemoralCloseup />;
-        if (selectedKey.includes("scm") || selectedName.includes("sternocleidomastoid")) return <SCMCloseup />;
-        if (selectedKey.includes("biceps") || selectedName.includes("biceps")) return <BicepsCloseup side={selectedKey.includes("left") || selectedKey.endsWith("_l") ? "Left" : "Right"} />;
-        return (
+      <AtlasRenderer selectedId={selectedId} info={info} />
+      {false && (
       <svg viewBox="0 0 420 330" className={showFlow ? "closeSvg flowMode" : "closeSvg"} aria-label={`Layered close-up view of ${info.name}`}>
         <defs>
           <radialGradient id="closeMuscle" cx="40%" cy="28%" r="75%">
@@ -1676,7 +1668,7 @@ function CloseUpStudyPanel({ selectedId, examMode, examStats, confidence, showFl
         </g>
       </svg>
         );
-      })()}
+      })}
       <div className="examGrid">
         <div><strong>System</strong><span style={{ color: system.dot }}>{system.label}</span></div>
         <div><strong>RN exam angle</strong><span>Landmarks, perfusion, airway/breathing/circulation relationships, injury red flags, and patient-assessment relevance.</span></div>
@@ -2871,6 +2863,167 @@ function LiveOREnvironmentSimulator() {
         <button onClick={nextEnvironment}>Next OR Environment</button>
       </div>
     </section>
+  );
+}
+
+const ATLAS_LAYER_CONFIG = {
+  bone: { label: "Bone", color: "#E8DCC8" },
+  muscle: { label: "Muscle", color: "#B83020" },
+  tendon: { label: "Tendon/Ligament", color: "#D4C4A0" },
+  artery: { label: "Artery", color: "#B01828" },
+  vein: { label: "Vein", color: "#2840A0" },
+  nerve: { label: "Nerve", color: "#F2C94C" },
+  airway: { label: "Airway", color: "#80B8D0" },
+};
+
+function normalizeAtlasText(value = "") {
+  return String(value).toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+}
+
+function resolveAtlasKey({ selectedId, info }) {
+  const id = normalizeAtlasText(selectedId);
+  const name = normalizeAtlasText(info?.name);
+  const system = normalizeAtlasText(info?.system);
+  const combined = `${id} ${name}`;
+
+  if (combined.includes("skull") || combined.includes("mandible")) return "skull";
+  if (combined.includes("rib") || combined.includes("sternum")) return "ribs_sternum";
+  if (combined.includes("clavicle") || combined.includes("scapula")) return "clavicle_scapula";
+  if (combined.includes("humerus") || combined.includes("radius") || combined.includes("ulna") || combined.includes("carpal")) return "humerus_radius_ulna";
+  if (combined.includes("pelvis")) return "pelvis";
+  if (combined.includes("femur")) return "femur";
+  if (combined.includes("patella") || combined.includes("acl") || combined.includes("pcl")) return "knee";
+  if (combined.includes("tibia") || combined.includes("fibula")) return "tibia_fibula";
+  if (combined.includes("tarsal") || combined.includes("metatarsal") || combined.includes("foot") || combined.includes("plantar")) return "foot";
+
+  if (combined.includes("heart") || combined.includes("aorta") || combined.includes("vena_cava")) return "heart_great_vessels";
+  if (combined.includes("femoral") || combined.includes("popliteal") || combined.includes("tibial_arter") || combined.includes("tibial_vein")) return "femoral_vessels";
+
+  if (combined.includes("lung")) return "lungs";
+  if (combined.includes("trachea") || combined.includes("carina") || combined.includes("bronch")) return "trachea_carina";
+  if (combined.includes("diaphragm")) return "diaphragm";
+
+  if (combined.includes("brachial_plexus")) return "brachial_plexus";
+  if (combined.includes("sciatic")) return "sciatic_nerve";
+  if (combined.includes("peroneal")) return "common_peroneal_nerve";
+  if (combined.includes("median_nerve") || combined.includes("ulnar_nerve") || combined.includes("radial_nerve") || combined.includes("musculocutaneous")) return "upper_limb_nerves";
+  if (combined.includes("phrenic")) return "phrenic_nerve";
+
+  if (combined.includes("sternocleidomastoid") || combined.includes("scm")) return "sternocleidomastoid";
+  if (combined.includes("biceps")) return "biceps";
+  if (combined.includes("quadriceps") || combined.includes("rectus_femoris") || combined.includes("vastus")) return "quadriceps";
+  if (combined.includes("hamstring")) return "hamstrings";
+  if (combined.includes("gastrocnemius") || combined.includes("soleus")) return "gastrocnemius";
+  if (combined.includes("achilles")) return "achilles_tendon";
+  if (combined.includes("patellar_tendon")) return "patellar_tendon";
+  if (combined.includes("rotator") || combined.includes("teres") || combined.includes("infraspinatus")) return "rotator_cuff";
+
+  if (system === "skeletal") return "skeletal_pending";
+  if (system === "respiratory") return "respiratory_pending";
+  if (system === "cardiovascular") return "cardio_pending";
+  if (system === "tendon" || system.includes("ligament")) return "tendon_pending";
+  if (system === "muscular") return "muscle_pending";
+  return "pending";
+}
+
+function PendingAtlasPlate({ name, atlasKey }) {
+  return (
+    <div className="pendingAtlas" role="note">
+      <div className="pendingAtlasKicker">Dedicated atlas plate pending</div>
+      <h4>{name || "Selected structure"}</h4>
+      <p>
+        This structure is not shown with a generic placeholder. A dedicated, anatomically specific plate is required before this view should be used for study.
+      </p>
+      <span>Atlas route: {atlasKey}</span>
+    </div>
+  );
+}
+
+function AtlasLayerLegend({ activeLayers = {}, onToggleLayer }) {
+  return (
+    <div className="atlasEngineLegend" aria-label="Atlas layer toggles">
+      {Object.entries(ATLAS_LAYER_CONFIG).map(([key, item]) => {
+        const enabled = activeLayers[key] !== false;
+        return (
+          <button key={key} className={enabled ? "active" : "inactive"} onClick={() => onToggleLayer?.(key)} type="button">
+            <span style={{ background: item.color }} />
+            {item.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+const ATLAS_ROUTES = {
+  skull: SkullPlate,
+  mandible: SkullPlate,
+  ribs_sternum: ThoracicCagePlate,
+  clavicle_scapula: ShoulderGirdlePlate,
+  humerus_radius_ulna: UpperLimbBonePlate,
+  pelvis: PelvisPlate,
+  femur: FemurPlate,
+  knee: KneePlate,
+  tibia_fibula: LowerLegFootPlate,
+  foot: LowerLegFootPlate,
+
+  heart_great_vessels: HeartCloseup,
+  heart: HeartCloseup,
+  aorta: HeartCloseup,
+  vena_cava: HeartCloseup,
+  femoral_vessels: FemoralCloseup,
+
+  lungs: LungLobesCloseup,
+  trachea_carina: LungLobesCloseup,
+  diaphragm: null,
+
+  sternocleidomastoid: SCMCloseup,
+  biceps: BicepsCloseup,
+
+  brachial_plexus: null,
+  sciatic_nerve: null,
+  common_peroneal_nerve: KneePlate,
+  upper_limb_nerves: null,
+  phrenic_nerve: null,
+
+  quadriceps: null,
+  hamstrings: null,
+  gastrocnemius: null,
+  achilles_tendon: null,
+  patellar_tendon: KneePlate,
+  rotator_cuff: ShoulderGirdlePlate,
+};
+
+function AtlasRenderer({ selectedId, info }) {
+  const [activeLayers, setActiveLayers] = useState({
+    bone: true,
+    muscle: true,
+    tendon: true,
+    artery: true,
+    vein: true,
+    nerve: true,
+    airway: true,
+  });
+
+  const atlasKey = resolveAtlasKey({ selectedId, info });
+  const AtlasComponent = ATLAS_ROUTES[atlasKey];
+
+  function toggleLayer(layer) {
+    setActiveLayers((prev) => ({ ...prev, [layer]: prev[layer] === false }));
+  }
+
+  return (
+    <div className="atlasEngine" style={Object.fromEntries(Object.keys(activeLayers).map((key) => [`--show-${key}`, activeLayers[key] ? 1 : 0]))}>
+      <AtlasLayerLegend activeLayers={activeLayers} onToggleLayer={toggleLayer} />
+      <div className="atlasViewport">
+        {AtlasComponent ? (
+          <AtlasComponent info={info} side={normalizeAtlasText(info?.name).includes("left") ? "Left" : "Right"} activeLayers={activeLayers} />
+        ) : (
+          <PendingAtlasPlate name={info?.name} atlasKey={atlasKey} />
+        )}
+      </div>
+      <div className="atlasEngineNotice">Study aid only. Use verified anatomy references and instructor guidance for exam and clinical decisions.</div>
+    </div>
   );
 }
 
