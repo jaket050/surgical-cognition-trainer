@@ -1604,71 +1604,7 @@ function CloseUpStudyPanel({ selectedId, examMode, examStats, confidence, showFl
         ))}
       </div>
       <AtlasRenderer selectedId={selectedId} info={info} />
-      {false && (
-      <svg viewBox="0 0 420 330" className={showFlow ? "closeSvg flowMode" : "closeSvg"} aria-label={`Layered close-up view of ${info.name}`}>
-        <defs>
-          <radialGradient id="closeMuscle" cx="40%" cy="28%" r="75%">
-            <stop offset="0%" stopColor="#FF9957" />
-            <stop offset="48%" stopColor="#B83020" />
-            <stop offset="100%" stopColor="#3B0711" />
-          </radialGradient>
-          <radialGradient id="closeBone" cx="42%" cy="30%" r="75%">
-            <stop offset="0%" stopColor="#FFF7E7" />
-            <stop offset="55%" stopColor="#E8DCC8" />
-            <stop offset="100%" stopColor="#7F6E50" />
-          </radialGradient>
-          <filter id="closeGlow" x="-40%" y="-40%" width="180%" height="180%">
-            <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#FFD447" floodOpacity="0.8" />
-          </filter>
-        </defs>
-        <rect x="0" y="0" width="420" height="330" rx="22" fill="#07050C" />
-        <path d="M48 172 C104 82 214 64 326 100 C374 116 396 162 374 208 C342 275 214 286 112 238 C66 216 36 194 48 172 Z" fill="rgba(46,120,255,0.10)" stroke="rgba(128,184,208,0.22)" />
-        {closeLayers.bone && <g opacity="0.97">
-          <path d="M74 166 C132 120 258 120 346 158" fill="none" stroke="url(#closeBone)" strokeWidth="30" strokeLinecap="round" />
-          <path d="M106 164 C136 148 178 144 214 150 M246 150 C286 148 318 154 344 168" fill="none" stroke="#FFF7E7" strokeWidth="4" strokeLinecap="round" opacity="0.5" />
-        </g>}
-        {closeLayers.muscle && <g opacity="0.96">
-          <path d="M90 188 C146 96 268 88 340 160 C316 230 204 262 108 222 C90 214 82 202 90 188 Z" fill="url(#closeMuscle)" stroke="rgba(255,255,255,0.08)" />
-          <path d="M114 192 C158 150 236 124 318 148 M128 210 C186 178 260 166 330 184 M150 222 C204 202 258 198 310 208" fill="none" stroke="rgba(255,210,166,0.28)" strokeWidth="2" strokeLinecap="round" />
-        </g>}
-        {closeLayers.tendon && <g opacity="0.98">
-          <path d="M122 226 C170 184 254 166 326 184" fill="none" stroke="#D4C4A0" strokeWidth="14" strokeLinecap="round" />
-          <path d="M72 170 C100 176 114 188 122 226 M326 184 C350 184 368 194 382 214" fill="none" stroke="#FFF1C7" strokeWidth="6" strokeLinecap="round" />
-        </g>}
-        {closeLayers.artery && <g opacity="0.98">
-          <path d="M104 142 C164 128 230 132 334 104" fill="none" stroke="#B01828" strokeWidth="9" strokeLinecap="round" />
-          <path d="M220 128 C238 142 260 150 292 154" fill="none" stroke="#B01828" strokeWidth="5" strokeLinecap="round" />
-          <circle cx="334" cy="104" r="5" fill="#FF5361" />
-        </g>}
-        {closeLayers.vein && <g opacity="0.98">
-          <path d="M108 166 C178 188 250 190 344 222" fill="none" stroke="#2840A0" strokeWidth="9" strokeLinecap="round" />
-          <path d="M170 180 C198 204 236 214 282 220" fill="none" stroke="#4059C8" strokeWidth="5" strokeLinecap="round" />
-          <circle cx="344" cy="222" r="5" fill="#5D75FF" />
-        </g>}
-        {closeLayers.nerve && <g opacity="0.98">
-          <path d="M92 128 C146 162 198 178 250 174 C286 172 320 184 364 210" fill="none" stroke="#F2C94C" strokeWidth="7" strokeLinecap="round" strokeDasharray="2 11" />
-          <path d="M206 176 C216 198 236 216 266 232" fill="none" stroke="#FFD447" strokeWidth="4" strokeLinecap="round" strokeDasharray="2 8" />
-          <circle cx="92" cy="128" r="5" fill="#FFF1A6" />
-        </g>}
-        {closeLayers.airway && <g opacity="0.58">
-          <path d="M166 122 C202 98 260 104 306 132" fill="none" stroke="#80B8D0" strokeWidth="11" strokeLinecap="round" />
-          <path d="M234 118 C248 136 268 144 302 146" fill="none" stroke="#BEEFFF" strokeWidth="5" strokeLinecap="round" />
-        </g>}
-        <path d="M184 136 C220 112 270 118 312 150 C276 184 206 194 150 172 C154 154 166 144 184 136 Z" fill="url(#selectedFocus)" stroke="#F6F0B8" strokeWidth="3" filter="url(#closeGlow)" opacity="0.98" />
-        <text x="24" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">Selected focus</text>
-        <text x="24" y="56" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">{info.name}</text>
-        <g fontFamily="Source Sans 3" fontSize="12" fontWeight="700">
-          <text x="24" y="304" fill="#E8DCC8">Bone</text>
-          <text x="78" y="304" fill="#B83020">Muscle</text>
-          <text x="144" y="304" fill="#D4C4A0">Tendon</text>
-          <text x="214" y="304" fill="#B01828">Artery</text>
-          <text x="278" y="304" fill="#2840A0">Vein</text>
-          <text x="326" y="304" fill="#F2C94C">Nerve</text>
-          <text x="370" y="304" fill="#80B8D0">Air</text>
-        </g>
-      </svg>
-        );
-      })}
+      
       <div className="examGrid">
         <div><strong>System</strong><span style={{ color: system.dot }}>{system.label}</span></div>
         <div><strong>RN exam angle</strong><span>Landmarks, perfusion, airway/breathing/circulation relationships, injury red flags, and patient-assessment relevance.</span></div>
