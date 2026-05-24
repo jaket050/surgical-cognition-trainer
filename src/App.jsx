@@ -1145,19 +1145,79 @@ function SCMCloseup() {
 
 function SkullPlate({ info }) {
   return (
-    <svg viewBox="0 0 420 330" className="closeSvg skullPlate" aria-label="Skull and mandible regional atlas">
-      <defs><radialGradient id="skullBone" cx="38%" cy="22%" r="78%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="52%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#77644A"/></radialGradient></defs>
-      <rect width="420" height="330" rx="22" fill="#07050C" />
-      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Skull / Mandible"}</text>
-      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Cranial protection, mandible/TMJ, airway alignment, facial trauma landmarks</text>
-      <path d="M150 62 C162 28 258 28 270 62 C286 112 266 172 214 178 C164 174 134 114 150 62 Z" fill="url(#skullBone)" stroke="#FFF7E8" strokeWidth="2" />
-      <path d="M164 172 C180 210 242 210 258 172 C256 238 232 272 210 274 C188 272 164 238 164 172 Z" fill="url(#skullBone)" stroke="#FFF7E8" strokeWidth="2" />
-      <path d="M178 94 C194 86 208 92 210 108 C212 92 226 86 242 94 M190 146 C206 154 226 154 242 146" fill="none" stroke="rgba(60,40,28,0.45)" strokeWidth="4" strokeLinecap="round" />
-      <path d="M124 150 C92 160 72 176 44 204" stroke="#B01828" strokeWidth="6" strokeLinecap="round" fill="none" />
-      <path d="M296 150 C328 160 348 176 376 204" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" />
-      <path d="M210 216 C190 248 178 270 162 294 M210 216 C230 248 242 270 258 294" stroke="#F2C94C" strokeWidth="4" strokeLinecap="round" strokeDasharray="2 9" fill="none" />
-      <g fontFamily="Source Sans 3" fontSize="12" fontWeight="900">
-        <text x="34" y="222" fill="#B01828">Facial artery region</text><text x="258" y="222" fill="#2840A0">Venous drainage</text><text x="128" y="306" fill="#F2C94C">Trigeminal/facial nerve relevance</text>
+    <svg viewBox="0 0 760 520" className="closeSvg skeletalAtlasPlate skullAtlas" aria-label="Skull detailed skeletal atlas">
+      <defs>
+        <radialGradient id="skullIvory" cx="38%" cy="24%" r="78%">
+          <stop offset="0%" stopColor="#FFFDF5" />
+          <stop offset="48%" stopColor="#E8DCC8" />
+          <stop offset="100%" stopColor="#8B7656" />
+        </radialGradient>
+        <radialGradient id="boneShadow" cx="50%" cy="58%" r="72%">
+          <stop offset="0%" stopColor="#E8DCC8" />
+          <stop offset="100%" stopColor="#4D3C2A" />
+        </radialGradient>
+        <filter id="atlasBoneDepth" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="10" stdDeviation="10" floodColor="#000" floodOpacity="0.46" />
+          <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#FFF1C7" floodOpacity="0.34" />
+        </filter>
+      </defs>
+      <rect width="760" height="520" rx="22" fill="#07050C" />
+      <text x="24" y="34" fill="#D88928" fontFamily="Source Sans 3" fontSize="13" fontWeight="900" letterSpacing="2">LATERAL VIEW • SKULL</text>
+      <text x="24" y="60" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="24">{info?.name || "Skull"}</text>
+
+      <g transform="translate(72 82)" filter="url(#atlasBoneDepth)">
+        <path d="M98 156 C78 68 154 10 262 18 C358 25 427 78 430 159 C433 232 386 284 320 293 C256 303 188 286 143 243 C120 220 106 192 98 156 Z" fill="url(#skullIvory)" stroke="#FFF7E8" strokeWidth="2" />
+        <path d="M372 168 C420 170 455 192 470 224 C448 244 422 245 396 232 C384 216 376 194 372 168 Z" fill="url(#skullIvory)" stroke="#FFF7E8" strokeWidth="2" />
+        <path d="M314 248 C350 246 392 252 430 278 C423 332 374 360 324 350 C298 326 294 286 314 248 Z" fill="url(#skullIvory)" stroke="#FFF7E8" strokeWidth="2" />
+        <path d="M188 286 C230 300 282 300 324 286 C330 328 318 368 280 392 C232 376 198 344 188 286 Z" fill="url(#skullIvory)" stroke="#FFF7E8" strokeWidth="2" />
+        <path d="M352 176 C368 150 410 150 432 176 C418 194 384 202 352 176 Z" fill="#1B1415" opacity="0.86" />
+        <path d="M408 218 C425 212 440 218 446 232" fill="none" stroke="#5A4936" strokeWidth="5" strokeLinecap="round" />
+        <circle cx="292" cy="228" r="23" fill="#241A18" opacity="0.86" />
+        <path d="M184 102 C224 92 264 102 292 130 C318 112 356 110 392 124" fill="none" stroke="#8C7658" strokeWidth="2.2" strokeDasharray="5 5" opacity="0.72" />
+        <path d="M168 188 C218 166 288 170 336 200" fill="none" stroke="#8C7658" strokeWidth="2" strokeDasharray="5 5" opacity="0.65" />
+        <path d="M260 34 C250 86 252 132 272 176" fill="none" stroke="#8C7658" strokeWidth="1.6" strokeDasharray="4 5" opacity="0.7" />
+        {[0,1,2,3,4,5,6].map((i)=><path key={i} d={`M340 ${288+i*8} C368 ${294+i*6} 398 ${296+i*5} 428 ${288+i*3}`} stroke="#6A553C" strokeWidth="3" strokeLinecap="round" opacity="0.68" />)}
+      </g>
+
+      <g fontFamily="Source Sans 3" fontSize="11.5" fontWeight="800" paintOrder="stroke" stroke="#07050C" strokeWidth="3" strokeLinejoin="round">
+        <path d="M188 136 H58" stroke="#D8CCA8" strokeWidth="1" fill="none"/><text x="24" y="140" fill="#F0D890">Parietal bone</text>
+        <path d="M304 132 H458" stroke="#D8CCA8" strokeWidth="1" fill="none"/><text x="466" y="136" fill="#F0D890">Frontal bone</text>
+        <path d="M242 246 H76" stroke="#D8CCA8" strokeWidth="1" fill="none"/><text x="22" y="250" fill="#F0D890">Temporal bone</text>
+        <path d="M374 252 H526" stroke="#D8CCA8" strokeWidth="1" fill="none"/><text x="534" y="256" fill="#F0D890">Zygomatic bone</text>
+        <path d="M354 354 H112" stroke="#D8CCA8" strokeWidth="1" fill="none"/><text x="26" y="358" fill="#F0D890">Mandible</text>
+        <path d="M282 308 H84" stroke="#D8CCA8" strokeWidth="1" fill="none"/><text x="24" y="312" fill="#F0D890">Mastoid process</text>
+      </g>
+
+      <g transform="translate(570 86)">
+        <rect x="0" y="0" width="164" height="132" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(240,216,144,0.18)" />
+        <text x="14" y="24" fill="#D88928" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">KEY FORAMINA</text>
+        {["Supraorbital (V1)","Infraorbital (V2)","Foramen ovale (V3)","Jugular foramen", "Hypoglossal canal"].map((t,i)=>(<g key={t}><circle cx="18" cy={46+i*16} r="6" fill="#F2C94C"/><text x="16" y={50+i*16} fill="#07050C" fontFamily="Source Sans 3" fontSize="8" fontWeight="900">{i+1}</text><text x="32" y={50+i*16} fill="#F0D890" fontFamily="Source Sans 3" fontSize="10.5">{t}</text></g>))}
+      </g>
+      <g transform="translate(570 230)">
+        <rect x="0" y="0" width="164" height="108" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(240,216,144,0.18)" />
+        <text x="14" y="24" fill="#D88928" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">CLINICAL PEARLS</text>
+        <text x="16" y="46" fill="#F0D890" fontFamily="Source Sans 3" fontSize="10.5">• Basilar fracture risk</text>
+        <text x="16" y="64" fill="#F0D890" fontFamily="Source Sans 3" fontSize="10.5">• CN deficits II–XII</text>
+        <text x="16" y="82" fill="#F0D890" fontFamily="Source Sans 3" fontSize="10.5">• Zygomatic arch trauma</text>
+      </g>
+      <g transform="translate(570 352)">
+        <rect x="0" y="0" width="164" height="86" rx="14" fill="rgba(184,48,32,0.055)" stroke="rgba(240,216,144,0.18)" />
+        <text x="14" y="24" fill="#E45735" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">DANGER ZONES</text>
+        <text x="16" y="48" fill="#F0D890" fontFamily="Source Sans 3" fontSize="10.5">▲ Middle meningeal artery</text>
+        <text x="16" y="66" fill="#F0D890" fontFamily="Source Sans 3" fontSize="10.5">▲ Cranial base foramina</text>
+      </g>
+
+      <g transform="translate(24 404)">
+        {[0,1,2,3].map((i)=><rect key={i} x={i*134} y="0" width="124" height="82" rx="10" fill="rgba(255,255,255,0.025)" stroke="rgba(240,216,144,0.14)" />)}
+        <path d="M36 18 C58 8 94 12 104 34 C108 58 90 74 66 74 C42 74 28 58 30 36 C31 28 33 22 36 18 Z" fill="url(#skullIvory)" />
+        <text x="24" y="98" fill="#D88928" fontFamily="Source Sans 3" fontSize="10" fontWeight="900">ANTERIOR</text>
+        <path d="M170 44 C190 16 238 16 256 44 C244 76 184 76 170 44 Z" fill="url(#skullIvory)" />
+        <text x="154" y="98" fill="#D88928" fontFamily="Source Sans 3" fontSize="10" fontWeight="900">BASE</text>
+        <path d="M300 18 C334 10 370 20 384 48 C362 72 320 72 298 48 Z" fill="url(#skullIvory)" />
+        <text x="284" y="98" fill="#D88928" fontFamily="Source Sans 3" fontSize="10" fontWeight="900">SUPERIOR</text>
+        <path d="M432 18 C470 12 506 34 512 64 C486 76 442 72 424 52 C422 38 424 26 432 18 Z" fill="url(#skullIvory)" />
+        <path d="M456 28 C470 44 472 58 462 72" stroke="#B01828" strokeWidth="3" fill="none" />
+        <text x="418" y="98" fill="#D88928" fontFamily="Source Sans 3" fontSize="10" fontWeight="900">MID-SAGITTAL</text>
       </g>
     </svg>
   );
@@ -1165,131 +1225,163 @@ function SkullPlate({ info }) {
 
 function ThoracicCagePlate({ info }) {
   return (
-    <svg viewBox="0 0 420 330" className="closeSvg thoraxPlate" aria-label="Ribs and sternum regional atlas">
-      <defs><radialGradient id="ribBone" cx="44%" cy="25%" r="82%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="54%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#7E6B50"/></radialGradient></defs>
-      <rect width="420" height="330" rx="22" fill="#07050C" />
-      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Ribs and Sternum"}</text>
-      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Thoracic cage: ventilation mechanics, intercostal spaces, chest tube danger zones</text>
-      <path d="M210 70 C204 118 204 200 210 260" stroke="url(#ribBone)" strokeWidth="18" strokeLinecap="round" fill="none" />
-      {[0,1,2,3,4,5].map((r)=><g key={r}>
-        <path d={`M202 ${92+r*26} C160 ${88+r*23} 118 ${108+r*18} ${82} ${142+r*17}`} stroke="url(#ribBone)" strokeWidth="8" strokeLinecap="round" fill="none" />
-        <path d={`M218 ${92+r*26} C260 ${88+r*23} 302 ${108+r*18} ${338} ${142+r*17}`} stroke="url(#ribBone)" strokeWidth="8" strokeLinecap="round" fill="none" />
-      </g>)}
-      <path d="M154 82 C174 72 194 72 210 84 C226 72 246 72 266 82" stroke="#D4C4A0" strokeWidth="8" strokeLinecap="round" fill="none" />
-      <path d="M100 160 C154 144 264 144 320 160" stroke="#B01828" strokeWidth="5" strokeLinecap="round" fill="none" opacity="0.9" />
-      <path d="M96 178 C156 194 264 194 324 178" stroke="#2840A0" strokeWidth="5" strokeLinecap="round" fill="none" opacity="0.85" />
-      <path d="M86 142 C120 160 144 178 166 212 M334 142 C300 160 276 178 254 212" stroke="#F2C94C" strokeWidth="4" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
-      <g fontFamily="Source Sans 3" fontSize="12" fontWeight="900"><text x="32" y="294" fill="#F0D890">CST cue: count ribs, protect intercostal vessels/nerves, understand chest tube landmarks.</text></g>
+    <svg viewBox="0 0 760 520" className="closeSvg skeletalAtlasPlate thoraxAtlas" aria-label="Thoracic cage detailed skeletal atlas">
+      <defs><radialGradient id="ribIvory" cx="42%" cy="22%" r="82%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="52%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#846F52"/></radialGradient><filter id="ribDepth" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="#000" floodOpacity="0.45"/></filter></defs>
+      <rect width="760" height="520" rx="22" fill="#07050C" />
+      <text x="24" y="34" fill="#D88928" fontFamily="Source Sans 3" fontSize="13" fontWeight="900" letterSpacing="2">ANTERIOR THORACIC CAGE</text>
+      <text x="24" y="62" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="24">{info?.name || "Ribs and Sternum"}</text>
+      <g transform="translate(104 78)" filter="url(#ribDepth)">
+        <path d="M276 22 C268 102 268 230 276 360" stroke="url(#ribIvory)" strokeWidth="22" strokeLinecap="round" fill="none" />
+        <path d="M236 28 C258 16 294 16 316 28" stroke="url(#ribIvory)" strokeWidth="14" strokeLinecap="round" fill="none" />
+        {Array.from({length:7},(_,i)=>(<g key={i}>
+          <path d={`M266 ${58+i*38} C214 ${42+i*36} 126 ${60+i*30} ${54} ${110+i*24}`} stroke="url(#ribIvory)" strokeWidth={i<3?10:8} strokeLinecap="round" fill="none" />
+          <path d={`M286 ${58+i*38} C338 ${42+i*36} 426 ${60+i*30} ${498} ${110+i*24}`} stroke="url(#ribIvory)" strokeWidth={i<3?10:8} strokeLinecap="round" fill="none" />
+        </g>))}
+        <path d="M90 126 C190 98 360 98 462 126" stroke="#B01828" strokeWidth="5" strokeLinecap="round" fill="none" opacity="0.88" />
+        <path d="M88 146 C190 174 362 174 464 146" stroke="#2840A0" strokeWidth="5" strokeLinecap="round" fill="none" opacity="0.86" />
+        <path d="M64 116 C118 152 164 202 194 280 M488 116 C434 152 388 202 358 280" stroke="#F2C94C" strokeWidth="4" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
+      </g>
+      <g fontFamily="Source Sans 3" fontSize="12" fontWeight="900" paintOrder="stroke" stroke="#07050C" strokeWidth="3">
+        <path d="M382 110 H584" stroke="#D8CCA8" strokeWidth="1"/><text x="594" y="114" fill="#F0D890">Sternum</text>
+        <path d="M188 178 H58" stroke="#D8CCA8" strokeWidth="1"/><text x="24" y="182" fill="#F0D890">True ribs</text>
+        <path d="M164 306 H52" stroke="#D8CCA8" strokeWidth="1"/><text x="24" y="310" fill="#F0D890">False ribs</text>
+      </g>
+      <g transform="translate(568 88)"><rect width="164" height="120" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(240,216,144,0.18)"/><text x="14" y="26" fill="#D88928" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">KEY LANDMARKS</text><text x="16" y="52" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Intercostal spaces</text><text x="16" y="72" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Sternal angle</text><text x="16" y="92" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Costal margin</text></g>
+      <g transform="translate(568 226)"><rect width="164" height="112" rx="14" fill="rgba(184,48,32,0.055)" stroke="rgba(240,216,144,0.18)"/><text x="14" y="26" fill="#E45735" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">DANGER ZONES</text><text x="16" y="52" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">▲ Intercostal bundle</text><text x="16" y="72" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">▲ Pneumothorax risk</text><text x="16" y="92" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">▲ Internal thoracic artery</text></g>
+      <text x="42" y="492" fill="#F0D890" fontFamily="Source Sans 3" fontSize="13" fontWeight="900">CST cue: protect intercostal vessels/nerves, know chest tube landmarks, and understand ventilation mechanics.</text>
     </svg>
   );
 }
 
 function ShoulderGirdlePlate({ info }) {
   return (
-    <svg viewBox="0 0 420 330" className="closeSvg shoulderPlate" aria-label="Clavicle and scapula regional atlas">
-      <defs><radialGradient id="shoulderBone" cx="38%" cy="22%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="52%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#79664B"/></radialGradient><radialGradient id="cuffMuscle" cx="34%" cy="24%" r="82%"><stop offset="0%" stopColor="#FFD4A0"/><stop offset="52%" stopColor="#B83020"/><stop offset="100%" stopColor="#3C0711"/></radialGradient></defs>
-      <rect width="420" height="330" rx="22" fill="#07050C" />
-      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Shoulder Girdle"}</text>
-      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Clavicle/scapula, axillary vessels, brachial plexus, rotator cuff relations</text>
-      <path d="M84 104 C142 78 190 76 210 94 C230 76 278 78 336 104" stroke="url(#shoulderBone)" strokeWidth="13" strokeLinecap="round" fill="none" />
-      <path d="M110 124 C156 96 198 112 214 160 C198 220 150 250 104 214 C92 178 92 146 110 124 Z" fill="url(#shoulderBone)" stroke="#FFF7E8" strokeWidth="2" opacity="0.95" />
-      <path d="M310 124 C264 96 222 112 206 160 C222 220 270 250 316 214 C328 178 328 146 310 124 Z" fill="url(#shoulderBone)" stroke="#FFF7E8" strokeWidth="2" opacity="0.95" />
-      <path d="M118 152 C164 130 202 142 210 174 C172 196 132 190 104 166 Z M302 152 C256 130 218 142 210 174 C248 196 288 190 316 166 Z" fill="url(#cuffMuscle)" opacity="0.8" />
-      <path d="M92 108 C120 146 142 184 158 238 M328 108 C300 146 278 184 262 238" stroke="#F2C94C" strokeWidth="5" strokeLinecap="round" strokeDasharray="2 9" fill="none" />
-      <path d="M84 118 C132 124 176 126 214 134 M336 118 C288 124 244 126 206 134" stroke="#B01828" strokeWidth="6" strokeLinecap="round" fill="none" />
-      <text x="110" y="292" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">Protect subclavian/axillary vessels and brachial plexus during positioning.</text>
+    <svg viewBox="0 0 760 520" className="closeSvg skeletalAtlasPlate shoulderAtlas" aria-label="Shoulder girdle detailed skeletal atlas">
+      <defs><radialGradient id="shoulderIvory" cx="38%" cy="22%" r="82%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="52%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#7C684C"/></radialGradient><radialGradient id="shoulderMuscleRed" cx="34%" cy="20%" r="80%"><stop offset="0%" stopColor="#FFD0A0"/><stop offset="52%" stopColor="#B83020"/><stop offset="100%" stopColor="#3A0711"/></radialGradient></defs>
+      <rect width="760" height="520" rx="22" fill="#07050C" />
+      <text x="24" y="34" fill="#D88928" fontFamily="Source Sans 3" fontSize="13" fontWeight="900" letterSpacing="2">SHOULDER GIRDLE • SCAPULA • CLAVICLE</text>
+      <text x="24" y="62" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="24">{info?.name || "Shoulder Girdle"}</text>
+      <g transform="translate(70 90)">
+        <path d="M48 58 C132 18 214 16 300 54 C386 16 468 18 552 58" stroke="url(#shoulderIvory)" strokeWidth="18" strokeLinecap="round" fill="none" />
+        <path d="M84 100 C160 52 236 82 266 164 C232 260 148 312 80 240 C58 180 60 130 84 100 Z" fill="url(#shoulderIvory)" stroke="#FFF7E8" strokeWidth="2" />
+        <path d="M516 100 C440 52 364 82 334 164 C368 260 452 312 520 240 C542 180 540 130 516 100 Z" fill="url(#shoulderIvory)" stroke="#FFF7E8" strokeWidth="2" />
+        <circle cx="140" cy="152" r="26" fill="#0B0710" opacity="0.85"/><circle cx="460" cy="152" r="26" fill="#0B0710" opacity="0.85"/>
+        <path d="M104 144 C160 116 222 130 260 178 C204 216 134 208 86 162 Z M496 144 C440 116 378 130 340 178 C396 216 466 208 514 162 Z" fill="url(#shoulderMuscleRed)" opacity="0.78" />
+        <path d="M62 76 C126 86 204 92 292 112 M538 76 C474 86 396 92 308 112" stroke="#B01828" strokeWidth="7" strokeLinecap="round" fill="none" />
+        <path d="M66 94 C132 116 210 126 292 142 M534 94 C468 116 390 126 308 142" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.86" />
+        <path d="M70 62 C122 122 154 180 176 274 M530 62 C478 122 446 180 424 274" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
+      </g>
+      <g fontFamily="Source Sans 3" fontSize="12" fontWeight="900"><text x="42" y="446" fill="#F0D890">High-yield: subclavian/axillary vessels and brachial plexus are key positioning and exposure risk zones.</text></g>
     </svg>
   );
 }
 
 function UpperLimbBonePlate({ info }) {
   return (
-    <svg viewBox="0 0 420 330" className="closeSvg upperLimbBonePlate" aria-label="Upper limb bone regional atlas">
-      <defs><radialGradient id="armBone" cx="42%" cy="22%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#78654A"/></radialGradient></defs>
-      <rect width="420" height="330" rx="22" fill="#07050C" />
-      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Upper Limb Bones"}</text>
-      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Humerus/radius/ulna/carpals: radial nerve, brachial artery, wrist compartments</text>
-      <path d="M206 70 C222 112 222 164 208 214" stroke="url(#armBone)" strokeWidth="23" strokeLinecap="round" fill="none" />
-      <path d="M198 216 C184 252 174 282 166 306" stroke="url(#armBone)" strokeWidth="12" strokeLinecap="round" fill="none" />
-      <path d="M218 216 C230 252 240 282 250 306" stroke="url(#armBone)" strokeWidth="12" strokeLinecap="round" fill="none" />
-      <circle cx="206" cy="68" r="18" fill="url(#armBone)" stroke="#FFF7E8" strokeWidth="2"/><circle cx="208" cy="214" r="16" fill="url(#armBone)" stroke="#FFF7E8" strokeWidth="2"/>
-      <path d="M250 70 C268 126 266 190 238 252" stroke="#B01828" strokeWidth="7" strokeLinecap="round" fill="none" />
-      <path d="M270 90 C288 148 286 206 260 270" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.85" />
-      <path d="M166 84 C138 144 142 210 172 276" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
-      <text x="72" y="292" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">Exam cue: humeral shaft fracture can endanger radial nerve; check distal perfusion.</text>
+    <svg viewBox="0 0 760 520" className="closeSvg skeletalAtlasPlate upperLimbAtlas" aria-label="Upper limb detailed skeletal atlas">
+      <defs><radialGradient id="armIvory" cx="42%" cy="22%" r="82%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#756349"/></radialGradient></defs>
+      <rect width="760" height="520" rx="22" fill="#07050C" />
+      <text x="24" y="34" fill="#D88928" fontFamily="Source Sans 3" fontSize="13" fontWeight="900" letterSpacing="2">UPPER LIMB BONES</text>
+      <text x="24" y="62" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="24">{info?.name || "Upper Limb Bones"}</text>
+      <g transform="translate(205 70)">
+        <circle cx="156" cy="52" r="32" fill="url(#armIvory)" stroke="#FFF7E8" strokeWidth="2" />
+        <path d="M156 78 C176 148 174 228 154 300" stroke="url(#armIvory)" strokeWidth="30" strokeLinecap="round" fill="none" />
+        <circle cx="154" cy="304" r="24" fill="url(#armIvory)" stroke="#FFF7E8" strokeWidth="2" />
+        <path d="M136 326 C116 376 102 416 92 450" stroke="url(#armIvory)" strokeWidth="14" strokeLinecap="round" fill="none" />
+        <path d="M174 326 C198 376 216 416 232 450" stroke="url(#armIvory)" strokeWidth="14" strokeLinecap="round" fill="none" />
+        <path d="M78 454 C124 442 186 444 250 468" stroke="url(#armIvory)" strokeWidth="15" strokeLinecap="round" fill="none" />
+        <path d="M214 76 C248 174 240 298 204 446" stroke="#B01828" strokeWidth="7" strokeLinecap="round" fill="none" />
+        <path d="M238 92 C274 190 264 310 226 456" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.86" />
+        <path d="M106 84 C56 188 68 314 122 448" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
+      </g>
+      <g fontFamily="Source Sans 3" fontSize="12" fontWeight="900" paintOrder="stroke" stroke="#07050C" strokeWidth="3"><text x="44" y="146" fill="#F0D890">Humeral head</text><text x="42" y="306" fill="#F0D890">Radial nerve spiral groove risk</text><text x="470" y="448" fill="#F0D890">Radius / ulna / carpals</text></g>
+      <text x="42" y="492" fill="#F0D890" fontFamily="Source Sans 3" fontSize="13" fontWeight="900">Exam cue: after humeral fracture, assess wrist extension, sensation, radial pulse, and capillary refill.</text>
     </svg>
   );
 }
 
 function PelvisPlate({ info }) {
   return (
-    <svg viewBox="0 0 420 330" className="closeSvg pelvisPlate" aria-label="Pelvic ring regional atlas">
-      <defs><radialGradient id="pelvisBone" cx="42%" cy="24%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#766348"/></radialGradient></defs>
-      <rect width="420" height="330" rx="22" fill="#07050C" />
-      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Pelvis"}</text>
-      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Pelvic ring, iliac vessels, femoral canal pathway, positioning and hemorrhage risk</text>
-      <path d="M112 92 C166 76 192 118 210 170 C228 118 254 76 308 92 C306 176 264 244 210 250 C156 244 114 176 112 92 Z" fill="url(#pelvisBone)" stroke="#FFF7E8" strokeWidth="2" />
-      <path d="M156 140 C184 154 200 186 210 236 C220 186 236 154 264 140" fill="none" stroke="#766348" strokeWidth="10" strokeLinecap="round" opacity="0.55" />
-      <path d="M186 116 C168 160 160 216 154 284 M234 116 C252 160 260 216 266 284" stroke="#B01828" strokeWidth="7" strokeLinecap="round" fill="none" />
-      <path d="M170 122 C146 166 138 218 136 286 M250 122 C274 166 282 218 284 286" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.85" />
-      <path d="M142 110 C114 164 108 224 122 284 M278 110 C306 164 312 224 298 284" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
-      <text x="70" y="306" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">CST cue: pelvic trauma can hide major blood loss; protect iliac/femoral vessels.</text>
+    <svg viewBox="0 0 760 520" className="closeSvg skeletalAtlasPlate pelvisAtlas" aria-label="Pelvis detailed skeletal atlas">
+      <defs><radialGradient id="pelvisIvory" cx="42%" cy="24%" r="82%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#78654A"/></radialGradient></defs>
+      <rect width="760" height="520" rx="22" fill="#07050C" />
+      <text x="24" y="34" fill="#D88928" fontFamily="Source Sans 3" fontSize="13" fontWeight="900" letterSpacing="2">PELVIC RING • ILIAC VESSELS • FEMORAL TRIANGLE</text>
+      <text x="24" y="62" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="24">{info?.name || "Pelvis"}</text>
+      <g transform="translate(118 90)">
+        <path d="M90 38 C166 8 220 70 272 166 C324 70 378 8 454 38 C458 158 390 278 272 300 C154 278 86 158 90 38 Z" fill="url(#pelvisIvory)" stroke="#FFF7E8" strokeWidth="2" />
+        <path d="M154 120 C194 156 230 212 272 286 C314 212 350 156 390 120" stroke="#9C8768" strokeWidth="18" strokeLinecap="round" fill="none" opacity="0.58" />
+        <path d="M228 218 C246 236 298 236 316 218 C306 260 288 282 272 286 C256 282 238 260 228 218 Z" fill="#07050C" opacity="0.72" />
+        <path d="M210 96 C174 184 162 286 154 382 M334 96 C370 184 382 286 390 382" stroke="#B01828" strokeWidth="8" strokeLinecap="round" fill="none" />
+        <path d="M184 102 C142 194 132 292 140 390 M360 102 C402 194 412 292 404 390" stroke="#2840A0" strokeWidth="7" strokeLinecap="round" fill="none" opacity="0.86" />
+        <path d="M134 86 C96 190 96 304 128 400 M410 86 C448 190 448 304 416 400" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 10" strokeLinecap="round" fill="none" />
+      </g>
+      <g transform="translate(568 94)"><rect width="164" height="128" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(240,216,144,0.18)"/><text x="14" y="26" fill="#D88928" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">LANDMARKS</text><text x="16" y="54" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Iliac crest / ASIS</text><text x="16" y="74" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Acetabulum</text><text x="16" y="94" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Pubic symphysis</text></g>
+      <g transform="translate(568 244)"><rect width="164" height="116" rx="14" fill="rgba(184,48,32,0.055)" stroke="rgba(240,216,144,0.18)"/><text x="14" y="26" fill="#E45735" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">DANGER ZONES</text><text x="16" y="54" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">▲ Iliac vessel injury</text><text x="16" y="74" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">▲ Hidden hemorrhage</text><text x="16" y="94" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">▲ Femoral canal path</text></g>
+      <text x="42" y="492" fill="#F0D890" fontFamily="Source Sans 3" fontSize="13" fontWeight="900">CST cue: pelvic trauma can hide major blood loss; protect iliac and femoral vessels.</text>
     </svg>
   );
 }
 
 function FemurPlate({ info }) {
   return (
-    <svg viewBox="0 0 420 330" className="closeSvg femurPlate" aria-label="Femur regional atlas">
-      <defs><radialGradient id="femurBone" cx="42%" cy="22%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#756348"/></radialGradient></defs>
-      <rect width="420" height="330" rx="22" fill="#07050C" />
-      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Femur"}</text>
-      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Hip-to-knee load transfer, femoral vessels, sciatic/femoral nerve relations</text>
-      <path d="M184 76 C220 106 232 180 218 270" stroke="url(#femurBone)" strokeWidth="28" strokeLinecap="round" fill="none" />
-      <circle cx="176" cy="70" r="24" fill="url(#femurBone)" stroke="#FFF7E8" strokeWidth="2" />
-      <path d="M202 272 C180 280 160 288 146 302 M218 270 C242 278 262 288 278 302" stroke="url(#femurBone)" strokeWidth="16" strokeLinecap="round" fill="none" />
-      <path d="M246 82 C266 144 260 226 236 300" stroke="#B01828" strokeWidth="8" strokeLinecap="round" fill="none" />
-      <path d="M268 92 C288 154 282 230 256 300" stroke="#2840A0" strokeWidth="7" strokeLinecap="round" fill="none" opacity="0.85" />
-      <path d="M142 86 C120 154 128 230 166 296" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
-      <text x="70" y="318" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">High-yield: shaft fracture can cause significant blood loss and neurovascular risk.</text>
+    <svg viewBox="0 0 760 520" className="closeSvg skeletalAtlasPlate femurAtlas" aria-label="Femur detailed skeletal atlas">
+      <defs><radialGradient id="femurIvory" cx="42%" cy="22%" r="82%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#78654A"/></radialGradient></defs>
+      <rect width="760" height="520" rx="22" fill="#07050C" />
+      <text x="24" y="34" fill="#D88928" fontFamily="Source Sans 3" fontSize="13" fontWeight="900" letterSpacing="2">FEMUR • HIP TO KNEE LOAD TRANSFER</text>
+      <text x="24" y="62" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="24">{info?.name || "Femur"}</text>
+      <g transform="translate(250 72)">
+        <circle cx="122" cy="38" r="34" fill="url(#femurIvory)" stroke="#FFF7E8" strokeWidth="2" />
+        <path d="M142 58 C188 122 188 250 156 390" stroke="url(#femurIvory)" strokeWidth="34" strokeLinecap="round" fill="none" />
+        <path d="M142 390 C102 410 80 428 58 452 M160 390 C206 408 236 426 260 452" stroke="url(#femurIvory)" strokeWidth="20" strokeLinecap="round" fill="none" />
+        <path d="M196 52 C240 162 228 306 190 456" stroke="#B01828" strokeWidth="8" strokeLinecap="round" fill="none" />
+        <path d="M222 68 C266 180 252 318 212 456" stroke="#2840A0" strokeWidth="7" strokeLinecap="round" fill="none" opacity="0.86" />
+        <path d="M80 76 C26 190 48 326 118 456" stroke="#F2C94C" strokeWidth="5" strokeLinecap="round" strokeDasharray="2 10" fill="none" />
+      </g>
+      <g fontFamily="Source Sans 3" fontSize="12" fontWeight="900" paintOrder="stroke" stroke="#07050C" strokeWidth="3"><text x="72" y="126" fill="#F0D890">Femoral head/neck</text><text x="76" y="286" fill="#F0D890">Shaft fracture = blood loss risk</text><text x="492" y="438" fill="#F0D890">Condyles articulate with tibia</text></g>
+      <text x="42" y="492" fill="#F0D890" fontFamily="Source Sans 3" fontSize="13" fontWeight="900">High-yield: femoral shaft injury may cause significant blood loss; always assess distal pulses and sensation.</text>
     </svg>
   );
 }
 
 function KneePlate({ info }) {
   return (
-    <svg viewBox="0 0 420 330" className="closeSvg kneePlate" aria-label="Knee and patella regional atlas">
-      <defs><radialGradient id="kneeBone" cx="42%" cy="22%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#756348"/></radialGradient></defs>
-      <rect width="420" height="330" rx="22" fill="#07050C" />
-      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Patella / Knee"}</text>
-      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Patella, ACL/PCL region, popliteal vessels, peroneal nerve caution</text>
-      <path d="M158 82 C188 116 232 116 262 82" stroke="url(#kneeBone)" strokeWidth="26" strokeLinecap="round" fill="none" />
-      <path d="M168 252 C190 218 230 218 252 252" stroke="url(#kneeBone)" strokeWidth="24" strokeLinecap="round" fill="none" />
-      <circle cx="210" cy="162" r="28" fill="url(#kneeBone)" stroke="#FFF7E8" strokeWidth="2" />
-      <path d="M190 122 C218 154 228 190 230 232 M230 122 C202 154 192 190 190 232" stroke="#D4C4A0" strokeWidth="8" strokeLinecap="round" fill="none" />
-      <path d="M246 78 C270 130 270 204 246 284" stroke="#B01828" strokeWidth="7" strokeLinecap="round" fill="none" />
-      <path d="M268 90 C292 148 288 214 262 286" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" />
-      <path d="M304 100 C284 156 284 220 302 284" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
-      <text x="62" y="310" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">Positioning cue: fibular head compression can injure common peroneal nerve.</text>
+    <svg viewBox="0 0 760 520" className="closeSvg skeletalAtlasPlate kneeAtlas" aria-label="Knee and patella detailed skeletal atlas">
+      <defs><radialGradient id="kneeIvory" cx="42%" cy="22%" r="82%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#78654A"/></radialGradient></defs>
+      <rect width="760" height="520" rx="22" fill="#07050C" />
+      <text x="24" y="34" fill="#D88928" fontFamily="Source Sans 3" fontSize="13" fontWeight="900" letterSpacing="2">KNEE JOINT • PATELLA • CRUCIATES</text>
+      <text x="24" y="62" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="24">{info?.name || "Patella / Knee"}</text>
+      <g transform="translate(178 92)">
+        <path d="M122 50 C170 92 250 92 298 50" stroke="url(#kneeIvory)" strokeWidth="34" strokeLinecap="round" fill="none" />
+        <path d="M136 300 C180 246 240 246 284 300" stroke="url(#kneeIvory)" strokeWidth="32" strokeLinecap="round" fill="none" />
+        <circle cx="210" cy="172" r="42" fill="url(#kneeIvory)" stroke="#FFF7E8" strokeWidth="2" />
+        <path d="M182 104 C224 152 240 204 244 276 M238 104 C196 152 180 204 176 276" stroke="#D4C4A0" strokeWidth="10" strokeLinecap="round" fill="none" />
+        <path d="M284 42 C326 132 320 244 280 360" stroke="#B01828" strokeWidth="8" strokeLinecap="round" fill="none" />
+        <path d="M310 56 C356 156 342 256 304 366" stroke="#2840A0" strokeWidth="7" strokeLinecap="round" fill="none" opacity="0.86" />
+        <path d="M354 78 C320 170 322 264 352 360" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 10" strokeLinecap="round" fill="none" />
+      </g>
+      <g transform="translate(568 92)"><rect width="164" height="118" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(240,216,144,0.18)"/><text x="14" y="26" fill="#D88928" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">STRUCTURES</text><text x="16" y="54" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Patella</text><text x="16" y="74" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• ACL / PCL</text><text x="16" y="94" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Popliteal vessels</text></g>
+      <text x="42" y="492" fill="#F0D890" fontFamily="Source Sans 3" fontSize="13" fontWeight="900">Positioning cue: fibular head pressure may injure common peroneal nerve and cause foot drop.</text>
     </svg>
   );
 }
 
 function LowerLegFootPlate({ info }) {
   return (
-    <svg viewBox="0 0 420 330" className="closeSvg lowerLegPlate" aria-label="Lower leg and foot skeletal atlas">
-      <defs><radialGradient id="legBone" cx="42%" cy="22%" r="80%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#756348"/></radialGradient></defs>
-      <rect width="420" height="330" rx="22" fill="#07050C" />
-      <text x="22" y="32" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="18">{info?.name || "Lower Leg / Foot"}</text>
-      <text x="22" y="54" fill="#A06820" fontFamily="Source Sans 3" fontSize="13">Tibia/fibula/tarsals/metatarsals: arches, pulses, peroneal nerve, compartment risk</text>
-      <path d="M184 72 C174 142 174 220 184 284" stroke="url(#legBone)" strokeWidth="22" strokeLinecap="round" fill="none" />
-      <path d="M228 76 C236 148 232 220 214 286" stroke="url(#legBone)" strokeWidth="12" strokeLinecap="round" fill="none" />
-      <path d="M156 286 C192 276 242 280 292 300" stroke="url(#legBone)" strokeWidth="18" strokeLinecap="round" fill="none" />
-      <path d="M246 88 C264 152 260 226 236 300" stroke="#B01828" strokeWidth="7" strokeLinecap="round" fill="none" />
-      <path d="M266 94 C286 158 280 226 258 304" stroke="#2840A0" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.86" />
-      <path d="M222 82 C258 116 278 150 292 194" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" fill="none" />
-      <path d="M154 292 C190 306 244 308 306 302" stroke="#D4C4A0" strokeWidth="7" strokeLinecap="round" fill="none" />
-      <text x="42" y="318" fill="#F0D890" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">Exam cue: dorsalis pedis/posterior tibial pulses, foot drop, arch support, compartment syndrome.</text>
+    <svg viewBox="0 0 760 520" className="closeSvg skeletalAtlasPlate lowerLegAtlas" aria-label="Lower leg and foot detailed skeletal atlas">
+      <defs><radialGradient id="legIvory" cx="42%" cy="22%" r="82%"><stop offset="0%" stopColor="#FFFFFF"/><stop offset="50%" stopColor="#E8DCC8"/><stop offset="100%" stopColor="#78654A"/></radialGradient></defs>
+      <rect width="760" height="520" rx="22" fill="#07050C" />
+      <text x="24" y="34" fill="#D88928" fontFamily="Source Sans 3" fontSize="13" fontWeight="900" letterSpacing="2">LOWER LEG • FOOT ARCHES • PULSE SITES</text>
+      <text x="24" y="62" fill="#F0D890" fontFamily="Libre Baskerville" fontSize="24">{info?.name || "Lower Leg / Foot"}</text>
+      <g transform="translate(248 78)">
+        <path d="M126 36 C108 146 110 266 128 388" stroke="url(#legIvory)" strokeWidth="28" strokeLinecap="round" fill="none" />
+        <path d="M188 42 C204 150 196 268 160 394" stroke="url(#legIvory)" strokeWidth="15" strokeLinecap="round" fill="none" />
+        <path d="M78 398 C132 374 216 384 302 424" stroke="url(#legIvory)" strokeWidth="22" strokeLinecap="round" fill="none" />
+        <path d="M108 418 C162 430 226 434 314 438" stroke="#D4C4A0" strokeWidth="8" strokeLinecap="round" fill="none" />
+        <path d="M218 60 C248 170 238 298 194 436" stroke="#B01828" strokeWidth="8" strokeLinecap="round" fill="none" />
+        <path d="M244 76 C276 188 260 304 218 444" stroke="#2840A0" strokeWidth="7" strokeLinecap="round" fill="none" opacity="0.86" />
+        <path d="M180 56 C236 112 268 166 288 246" stroke="#F2C94C" strokeWidth="5" strokeDasharray="2 10" strokeLinecap="round" fill="none" />
+      </g>
+      <g transform="translate(568 92)"><rect width="164" height="136" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(240,216,144,0.18)"/><text x="14" y="26" fill="#D88928" fontFamily="Source Sans 3" fontSize="12" fontWeight="900">EXAM POINTS</text><text x="16" y="54" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Dorsalis pedis pulse</text><text x="16" y="74" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Posterior tibial pulse</text><text x="16" y="94" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Foot drop risk</text><text x="16" y="114" fill="#F0D890" fontSize="11" fontFamily="Source Sans 3">• Compartment syndrome</text></g>
+      <text x="42" y="492" fill="#F0D890" fontFamily="Source Sans 3" fontSize="13" fontWeight="900">High-yield: peroneal nerve, arch support, distal pulses, capillary refill, and compartment pressure signs.</text>
     </svg>
   );
 }
